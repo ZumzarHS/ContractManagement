@@ -1,0 +1,30 @@
+﻿using ContractManagement.Domain.Enums;
+
+namespace Application.Contracts.CreateContract.Commands;
+
+public record CreateContractCommand(
+    Guid SupplierId,
+    Guid EmployeeId,
+    string Title,
+    string? Description,
+    DateTime StartDate,
+    DateTime? EndDate,
+    DateTime? ActionDate,
+    int? NoticePeriodValue,
+    NoticePeriodUnit? NoticePeriodUnit,
+    IReadOnlyList<CreateContractLineInput> ContractLines
+);
+
+public record CreateContractLineInput(
+    Guid CatalogItemId,
+    string? Producer,
+    string? Model,
+    decimal Price,
+    int? Quantity,
+    string? Description,
+    decimal? InitialAmount,
+    int? DeliveryFrequencyInterval,
+    FrequencyUnit? DeliveryFrequencyUnit,
+    int PaymentFrequencyInterval,
+    FrequencyUnit PaymentFrequencyUnit
+);
