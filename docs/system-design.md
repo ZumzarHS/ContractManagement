@@ -1,12 +1,63 @@
-# Teknologier
-ASP.NET Core, EF Core, SQL Server, React og TypeScript.
-
-Backend skal følge en forenklet Clean Architecture.
-
-
-
 # Arkitektur
 
+## Projektstruktur
+
+Backend organiseres som fire separate C#-projekter i samme .NET solution. Arkitekturen følger en forenklet Clean Architecture, hvor hvert projekt har et tydeligt ansvar, og afhængighederne mellem projekterne begrænses.
+
+Frontend udvikles separat med React og TypeScript og kommunikerer med backend gennem et HTTP-baseret API.
+
+Den planlagte mappestruktur er:
+
+```text
+ContractManagement/
+├── docs/
+│   ├── requirements.md
+│   ├── system-design.md
+│   └── diagrams/
+├── src/
+│   ├── ContractManagement.Domain/
+│   ├── ContractManagement.Application/
+│   ├── ContractManagement.Infrastructure/
+│   └── ContractManagement.Api/
+├── tests/
+│   ├── ContractManagement.Domain.Tests/
+│   └── ContractManagement.Application.Tests/
+└── ContractManagement.sln
+```
+
+Frontend placeres i en separat mappe, når den grundlæggende backendstruktur er etableret.
+
+### Domain
+Indeholder systemets centrale entiteter og forretningsregler. Det omfatter blandt andet regler for kontraktdatoer, kontraktstatus og fornyelse af kontrakter.
+
+Domain er uafhængigt af database, API og brugergrænseflade.
+
+### Application
+Indeholder systemets use cases og applikationslogik, som koordinerer handlinger såsom oprettelse, redigering, fornyelse og afslutning af kontrakter.
+
+Application afhænger af Domain og kan definere interfaces til funktionalitet, som leveres af eksterne tekniske komponenter.
+
+### Infrastructure
+Indeholder de tekniske implementeringer, herunder databasetilgang med Entity Framework Core og SQL Server.
+
+Infrastructure implementerer de nødvendige eksterne funktioner og interfaces, som defineres af de indre lag, og afhænger af disse efter behov.
+### Api
+
+Indeholder backendens HTTP-endpoints, håndtering af requests og responses samt konfiguration af dependency injection.
+
+API'et modtager forespørgsler fra frontend, kalder relevante use cases i Application og konfigurerer de tekniske implementeringer fra Infrastructure ved opstart.
+
+### Afhængigheder mellem projekter
+Afhængighederne organiseres efter principperne i Clean Architecture:
+
+- **Domain** har ingen afhængigheder til de øvrige projekter.
+- **Application** afhænger af Domain.
+- **Infrastructure** afhænger af de indre lag, når det er nødvendigt for at implementere deres interfaces og funktionalitet.
+- **Api** afhænger af Application og Infrastructure for at håndtere requests og sammensætte applikationen ved opstart.
+
+Afhængighederne skal pege ind mod systemets forretningskerne, så forretningsreglerne ikke bliver bundet til bestemte teknologier.
+
+Formålet er at holde ansvarsområder adskilt og gøre systemet lettere at teste, vedligeholde og udvide.
 
 # Datamodel
 ## Entiteter
@@ -100,3 +151,4 @@ Contract (1:N) ContractLine
 CatalogItem (1:N) ContractLine 
 Employee (1:N) ContractHistory
 Contract (1:N) ContractHistory
+
