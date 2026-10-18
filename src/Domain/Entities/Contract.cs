@@ -7,9 +7,9 @@ namespace ContractManagement.Domain.Entities
         public Guid ContractId { get; private set; }
         public string Title { get; private set; } = string.Empty;
         public string? Description { get; private set; }
-        public DateTime StartDate { get; private set; }
-        public DateTime? EndDate { get; private set; }
-        public DateTime? ActionDate { get; private set; }
+        public DateOnly StartDate { get; private set; }
+        public DateOnly? EndDate { get; private set; }
+        public DateOnly? ActionDate { get; private set; }
         public int? NoticePeriodValue { get; private set; }
         public NoticePeriodUnit? NoticePeriodUnit { get; private set; }
         public ContractStatus ContractStatus { get; private set; }
@@ -28,9 +28,9 @@ namespace ContractManagement.Domain.Entities
             Guid supplierId,
             string title,
             string? description,
-            DateTime startDate,
-            DateTime? endDate,
-            DateTime? actionDate,
+            DateOnly startDate,
+            DateOnly? endDate,
+            DateOnly? actionDate,
             int? noticePeriodValue,
             NoticePeriodUnit? noticePeriodUnit)
         {
@@ -55,7 +55,7 @@ namespace ContractManagement.Domain.Entities
                 ActionDate = actionDate,
                 NoticePeriodValue = noticePeriodValue,
                 NoticePeriodUnit = noticePeriodUnit,
-                ContractStatus = startDate.Date > DateTime.UtcNow.Date
+                ContractStatus = startDate > DateOnly.FromDateTime(DateTime.UtcNow)
                     ? ContractStatus.Pending
                     : ContractStatus.Active,
                 ActionStatus = ActionStatus.None

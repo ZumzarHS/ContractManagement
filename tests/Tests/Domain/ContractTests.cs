@@ -9,8 +9,8 @@ public class ContractTests
     {
         // Arrange
         var supplierId = Guid.NewGuid();
-        var startDate = new DateTime(2027, 5, 1);
-        var endDate = new DateTime(2027, 4, 1);
+        var startDate = new DateOnly(2027, 5, 1);
+        var endDate = new DateOnly(2027, 4, 1);
 
         // Act & Assert
         Assert.Throws<ArgumentException>(() =>
@@ -32,8 +32,8 @@ public class ContractTests
                 Guid.NewGuid(),
                 string.Empty,
                 null,
-                new DateTime(2027, 4, 1),
-                new DateTime(2027, 5, 1),
+                new DateOnly(2027, 4, 1),
+                new DateOnly(2027, 5, 1),
                 null,
                 null,
                 null));
@@ -46,8 +46,8 @@ public class ContractTests
                 Guid.Empty,
                 "Testkontrakt",
                 null,
-                new DateTime(2027, 4, 1),
-                new DateTime(2027, 5, 1),
+                new DateOnly(2027, 4, 1),
+                new DateOnly(2027, 5, 1),
                 null,
                 null,
                 null));
@@ -56,8 +56,8 @@ public class ContractTests
     public void Create_ValidInput_CreatesContract()
     {
         var supplierId = Guid.NewGuid();
-        var startDate = new DateTime(2027, 4, 1);
-        var endDate = new DateTime(2027, 5, 1);
+        var startDate = new DateOnly(2027, 4, 1);
+        var endDate = new DateOnly(2027, 5, 1);
 
         var contract = Contract.Create(
             supplierId,

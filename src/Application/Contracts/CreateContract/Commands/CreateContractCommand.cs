@@ -7,9 +7,9 @@ public record CreateContractCommand(
     Guid EmployeeId,
     string Title,
     string? Description,
-    DateTime StartDate,
-    DateTime? EndDate,
-    DateTime? ActionDate,
+    DateOnly StartDate,
+    DateOnly? EndDate,
+    DateOnly? ActionDate,
     int? NoticePeriodValue,
     NoticePeriodUnit? NoticePeriodUnit,
     IReadOnlyList<CreateContractLineInput> ContractLines

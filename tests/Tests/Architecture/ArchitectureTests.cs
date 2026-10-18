@@ -2,7 +2,8 @@
 using Xunit;
 using ContractManagement.Domain.Entities;
 using Application.Contracts.CreateContract.Commands;
-using Infrastructure;
+
+namespace ContractManagement.Tests.Architecture;
 
 public class ArchitectureTests
 {
