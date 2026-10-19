@@ -1,16 +1,22 @@
-using ContractManagement.Infrastructure.Persistence;
-using Microsoft.EntityFrameworkCore;
+using ContractManagement.Application;
+using ContractManagement.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+// Swagger
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ContractManagementDb")));
+builder.Services.AddApplication();
+builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 
@@ -24,6 +30,12 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+app.UseSwagger();
+app.UseSwaggerUI();
+
 app.MapControllers();
 
 app.Run();
+
+// Tilføjet til gavn for testprojektet
+public partial class Program { }
