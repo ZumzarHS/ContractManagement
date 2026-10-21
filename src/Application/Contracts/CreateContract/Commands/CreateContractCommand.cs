@@ -4,7 +4,6 @@ namespace Application.Contracts.CreateContract.Commands;
 
 public record CreateContractCommand(
     Guid SupplierId,
-    Guid EmployeeId,
     string Title,
     string? Description,
     DateOnly StartDate,
