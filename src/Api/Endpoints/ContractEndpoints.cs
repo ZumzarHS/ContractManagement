@@ -1,6 +1,7 @@
 ﻿using Application.Contracts.CreateContract;
 using Application.Contracts.GetContracts;
 using Application.Contracts.GetContractById;
+using ContractManagement.Api.Common;
 
 namespace ContractManagement.Api.Endpoints
 {
@@ -12,7 +13,7 @@ namespace ContractManagement.Api.Endpoints
                 .WithTags("Contracts");
 
             group.MapPost("", CreateContract);
-            group.MapGet("/{contractId}", GetContractById);
+            group.MapGet("/{contractId:guid}", GetContractById);
             group.MapGet("/", GetContracts);
         }
 
@@ -25,7 +26,7 @@ namespace ContractManagement.Api.Endpoints
 
             if (result.IsFailure)
             {
-                return Results.BadRequest(result.Error);
+                return result.ToProblemDetails();
             }
             return Results.Json(
                 result.Value,
@@ -40,7 +41,7 @@ namespace ContractManagement.Api.Endpoints
             var result = await handler.Handle(new GetContractByIdQuery(contractId), ct);
             if (result.IsFailure)
             {
-                return Results.NotFound(result.Error);
+                return result.ToProblemDetails();
             }
             return Results.Ok(result.Value);
         }
@@ -51,9 +52,7 @@ namespace ContractManagement.Api.Endpoints
             var result = await handler.Handle(new GetContractsQuery(), ct);
             if (result.IsFailure)
             {
-                return Results.Problem(
-                    title: "Could not retrieve contracts",
-                    statusCode: StatusCodes.Status500InternalServerError);
+                return result.ToProblemDetails();
             }
             return Results.Ok(result.Value);
         }
