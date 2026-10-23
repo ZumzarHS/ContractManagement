@@ -6,5 +6,6 @@ namespace Application.Interfaces
     {
         Task AddAsync(Contract contract, CancellationToken ct);
         Task<Contract?> GetByIdAsync(Guid id, CancellationToken ct);
+        Task<IEnumerable<Contract>> GetAllAsync(CancellationToken ct);
     }
 }

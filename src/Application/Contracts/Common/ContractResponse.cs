@@ -1,5 +1,5 @@
 ﻿using ContractManagement.Domain.Enums;
-namespace Application.Contracts.GetContractById;
+namespace Application.Contracts.Common;
 
 
 public sealed record ContractResponse(

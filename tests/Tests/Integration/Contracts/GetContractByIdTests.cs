@@ -1,5 +1,5 @@
-﻿using Application.Contracts.CreateContract;
-using Application.Contracts.GetContractById;
+﻿using Application.Contracts.Common;
+using Application.Contracts.CreateContract;
 using ContractManagement.Domain.Entities;
 using ContractManagement.Domain.Enums;
 using System.Net;

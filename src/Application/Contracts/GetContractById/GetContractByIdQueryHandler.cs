@@ -1,4 +1,5 @@
 ﻿using Application.Common.Results;
+using Application.Contracts.Common;
 using Application.Interfaces;
 
 namespace Application.Contracts.GetContractById;

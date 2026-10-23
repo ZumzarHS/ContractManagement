@@ -1,5 +1,6 @@
 ﻿using Application.Contracts.CreateContract;
 using Application.Contracts.GetContractById;
+using Application.Contracts.GetContracts;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ContractManagement.Application;
@@ -10,6 +11,7 @@ public static class DependencyInjection
     {
         services.AddScoped<CreateContractCommandHandler>();
         services.AddScoped<GetContractByIdQueryHandler>();
+        services.AddScoped<GetContractsQueryHandler>();
 
         return services;
     }
