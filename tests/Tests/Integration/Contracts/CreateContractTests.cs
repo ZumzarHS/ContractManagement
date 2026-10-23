@@ -19,14 +19,14 @@ public class CreateContractTests : BaseIntegrationTest
     public async Task Create_ShouldCreateContract()
     {
         // Arrange: 1. Opret de nødvendige relaterede entiteter i SQL Server
-        var supplier = new Supplier
-        {
-            SupplierId = Guid.NewGuid(),
-            Name = "Test Leverandør A/S",
-            Address = "Testvej 1, 9000 Aalborg",
-            Cvr = "12345678",
-            Status = SupplierStatus.Active
-        };
+        var supplier = Supplier.Create(
+               name: "Test Leverandør A/S",
+               address: "Testvej 1, 9000 Aalborg",
+               cvr: "12345679",
+               contactPerson: null,
+               email: null,
+               phoneNumber: null
+               );
 
         DbContext.Suppliers.Add(supplier);
 

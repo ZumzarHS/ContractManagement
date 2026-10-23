@@ -17,14 +17,14 @@ namespace Tests.Integration.Contracts
         public async Task GetContractById_ShouldReturnContract_WhenContractExists()
         {
             // Arrange
-            var supplier = new Supplier
-            {
-                SupplierId = Guid.NewGuid(),
-                Name = "Test Leverandør A/S",
-                Address = "Testvej 1, 9000 Aalborg",
-                Cvr = "12345679",
-                Status = SupplierStatus.Active
-            };
+            var supplier = Supplier.Create(
+               name: "Test Leverandør A/S",
+               address: "Testvej 1, 9000 Aalborg",
+               cvr: "12345679",
+               contactPerson: null,
+               email: null,
+               phoneNumber: null
+               );
 
             DbContext.Suppliers.Add(supplier);
             await DbContext.SaveChangesAsync();

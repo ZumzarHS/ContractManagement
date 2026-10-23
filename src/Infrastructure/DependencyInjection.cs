@@ -14,6 +14,7 @@ public static class DependencyInjection
             options.UseSqlServer(configuration.GetConnectionString("ContractManagementDb")));
 
         services.AddScoped<IContractRepository, ContractRepository>();
+        services.AddScoped<ISupplierRepository, SupplierRepository>();
 
         return services;
     }
