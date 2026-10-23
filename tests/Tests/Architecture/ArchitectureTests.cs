@@ -2,6 +2,7 @@
 using Xunit;
 using ContractManagement.Domain.Entities;
 using Application.Contracts.CreateContract;
+using ContractManagement.Infrastructure.Persistence;
 
 namespace ContractManagement.Tests.Architecture;
 
@@ -14,12 +15,12 @@ public class ArchitectureTests
             .InAssembly(typeof(Contract).Assembly)
             .ShouldNot()
             .HaveDependencyOn(
-                typeof(CreateContractCommand).Assembly.GetName().Name!)
+                typeof(AppDbContext).Assembly.GetName().Name!)
             .GetResult();
 
         Assert.True(result.IsSuccessful);
     }
-    /*
+    
     [Fact]
     public void Domain_Should_Not_Reference_Infrastructure()
     {
@@ -27,7 +28,7 @@ public class ArchitectureTests
             .InAssembly(typeof(Contract).Assembly)
             .ShouldNot()
             .HaveDependencyOn(
-                typeof(ContractManagementDbContext)
+                typeof(AppDbContext)
                     .Assembly.GetName().Name!)
             .GetResult();
 
@@ -41,10 +42,10 @@ public class ArchitectureTests
             .InAssembly(typeof(CreateContractCommand).Assembly)
             .ShouldNot()
             .HaveDependencyOn(
-                typeof(ContractManagementDbContext)
+                typeof(AppDbContext)
                     .Assembly.GetName().Name!)
             .GetResult();
 
         Assert.True(result.IsSuccessful);
-    }*/
+    }
 }
