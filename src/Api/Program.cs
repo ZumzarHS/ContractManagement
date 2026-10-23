@@ -1,3 +1,4 @@
+using ContractManagement.Api.Endpoints;
 using ContractManagement.Application;
 using ContractManagement.Infrastructure;
 
@@ -33,7 +34,8 @@ app.UseAuthorization();
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.MapControllers();
+// app.MapControllers();
+app.MapContractEndpoints();
 
 app.Run();
 

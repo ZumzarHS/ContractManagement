@@ -1,12 +1,13 @@
-﻿using Application.Contracts.CreateContract.Commands;
+﻿using Application.Contracts.CreateContract;
 using ContractManagement.Domain.Entities;
 using ContractManagement.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 using System.Net.Http.Json;
-using Xunit;
 
 namespace Tests.Integration.Contracts;
+
+[Collection("Integration tests")]
 
 public class CreateContractTests : BaseIntegrationTest
 {
@@ -72,7 +73,7 @@ public class CreateContractTests : BaseIntegrationTest
 
         // Act: Send HTTP-request til API'en
         var response = await Client.PostAsJsonAsync(
-            "/api/Contracts",
+            "/api/contracts",
             command
         );
 

@@ -1,7 +1,8 @@
 ﻿using Application.Interfaces;
 using ContractManagement.Domain.Entities;
+using Application.Common.Results;
 
-namespace Application.Contracts.CreateContract.Commands
+namespace Application.Contracts.CreateContract
 {
     public class CreateContractCommandHandler
     {
@@ -12,7 +13,7 @@ namespace Application.Contracts.CreateContract.Commands
             _contracts = contracts;
         }
 
-        public async Task<Guid> Handle(CreateContractCommand command, CancellationToken ct)
+        public async Task<Result<Guid>> Handle(CreateContractCommand command, CancellationToken ct)
         {
             var contract = Contract.Create(
                 command.SupplierId, 
@@ -44,7 +45,7 @@ namespace Application.Contracts.CreateContract.Commands
             }
             
             await _contracts.AddAsync(contract, ct);
-            return contract.ContractId;
+            return Result<Guid>.Success(contract.ContractId);
         }
     }
 }
