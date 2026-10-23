@@ -1,4 +1,5 @@
 ﻿using Application.Contracts.CreateContract;
+using Application.Contracts.GetContractById;
 using ContractManagement.Domain.Entities;
 using ContractManagement.Domain.Enums;
 using System.Net;
@@ -54,10 +55,12 @@ namespace Tests.Integration.Contracts
             // Assert 1: Kontrollér statuskode og indhold
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
             
-            var responseBody = await response.Content.ReadAsStringAsync();
-        
-            Assert.Contains("Test contract", responseBody);
+            var contract = await response.Content.ReadFromJsonAsync<ContractResponse>();
+
+            Assert.NotNull(contract);
             Assert.NotEqual(Guid.Empty, contractId);
+            Assert.Equal(contractId, contract.ContractId);
+            Assert.Equal("Test contract", contract.Title);
         }
         [Fact]
         public async Task GetContractById_ShouldReturnNotFound_WhenContractDoesNotExist()
