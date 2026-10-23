@@ -1,4 +1,4 @@
-﻿using Application.Contracts.CreateContract.Commands;
+﻿using Application.Contracts.CreateContract;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ContractManagement.Application;

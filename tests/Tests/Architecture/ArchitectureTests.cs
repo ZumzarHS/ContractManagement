@@ -1,7 +1,7 @@
 ﻿using NetArchTest.Rules;
 using Xunit;
 using ContractManagement.Domain.Entities;
-using Application.Contracts.CreateContract.Commands;
+using Application.Contracts.CreateContract;
 
 namespace ContractManagement.Tests.Architecture;
 

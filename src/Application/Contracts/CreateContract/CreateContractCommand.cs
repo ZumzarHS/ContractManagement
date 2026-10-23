@@ -1,6 +1,6 @@
 ﻿using ContractManagement.Domain.Enums;
 
-namespace Application.Contracts.CreateContract.Commands;
+namespace Application.Contracts.CreateContract;
 
 public record CreateContractCommand(
     Guid SupplierId,

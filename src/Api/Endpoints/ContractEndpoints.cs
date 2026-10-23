@@ -1,4 +1,6 @@
-﻿using Application.Contracts.CreateContract.Commands;
+﻿using Application.Contracts.CreateContract;
+//using Application.Contracts.GetContracts;
+using Application.Contracts.GetContractById;
 
 namespace ContractManagement.Api.Endpoints
 {
@@ -10,6 +12,7 @@ namespace ContractManagement.Api.Endpoints
                 .WithTags("Contracts");
 
             group.MapPost("", CreateContract);
+            group.MapGet("/{contractId}", GetContractById);
         }
 
         private static async Task<IResult> CreateContract(
@@ -17,11 +20,28 @@ namespace ContractManagement.Api.Endpoints
             CreateContractCommandHandler handler,
             CancellationToken ct)
         {
-            var contractId = await handler.Handle(command, ct);
+            var result = await handler.Handle(command, ct);
 
+            if (result.IsFailure)
+            {
+                return Results.BadRequest(result.Error);
+            }
             return Results.Json(
-                contractId, 
+                result.Value,
                 statusCode: StatusCodes.Status201Created);
+        }
+
+        private static async Task<IResult> GetContractById(
+            Guid contractId,
+            GetContractByIdQueryHandler handler,
+            CancellationToken ct)
+        {
+            var result = await handler.Handle(new GetContractByIdQuery(contractId), ct);
+            if (result.IsFailure)
+            {
+                return Results.NotFound(result.Error);
+            }
+            return Results.Ok(result.Value);
         }
     }
 }

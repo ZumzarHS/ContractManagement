@@ -1,4 +1,4 @@
-﻿using Application.Contracts.CreateContract.Commands;
+﻿using Application.Contracts.CreateContract;
 using ContractManagement.Domain.Entities;
 using ContractManagement.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
