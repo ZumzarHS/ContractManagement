@@ -7,6 +7,8 @@ using System.Net.Http.Json;
 
 namespace Tests.Integration.Contracts;
 
+[Collection("Integration tests")]
+
 public class CreateContractTests : BaseIntegrationTest
 {
     public CreateContractTests(IntegrationTestWebAppFactory factory) : base(factory)
