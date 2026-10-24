@@ -1,6 +1,6 @@
 ﻿using Application.Suppliers.CreateSupplier;
-//using Application.Suppliers.GetSuppliers;
-//using Application.Suppliers.GetSupplierById;
+using Application.Suppliers.GetSupplierById;
+using Application.Suppliers.GetSuppliers;
 using ContractManagement.Api.Common;
 
 namespace ContractManagement.Api.Endpoints
@@ -13,8 +13,8 @@ namespace ContractManagement.Api.Endpoints
                 .WithTags("Suppliers");
 
             group.MapPost("", CreateSupplier);
-          //  group.MapGet("/{SupplierId:guid}", GetSupplierById);
-            //group.MapGet("/", GetSuppliers);
+            group.MapGet("/{supplierId:guid}", GetSupplierById);
+            group.MapGet("/", GetSuppliers);
         }
 
         private static async Task<IResult> CreateSupplier(
@@ -33,28 +33,28 @@ namespace ContractManagement.Api.Endpoints
                 statusCode: StatusCodes.Status201Created);
         }
 
-        //private static async Task<IResult> GetSupplierById(
-        //    Guid SupplierId,
-        //    GetSupplierByIdQueryHandler handler,
-        //    CancellationToken ct)
-        //{
-        //    var result = await handler.Handle(new GetSupplierByIdQuery(SupplierId), ct);
-        //    if (result.IsFailure)
-        //    {
-        //        return result.ToProblemDetails();
-        //    }
-        //    return Results.Ok(result.Value);
-        //}
-        //private static async Task<IResult> GetSuppliers(
-        //  GetSuppliersQueryHandler handler,
-        //  CancellationToken ct)
-        //{
-        //    var result = await handler.Handle(new GetSuppliersQuery(), ct);
-        //    if (result.IsFailure)
-        //    {
-        //        return result.ToProblemDetails();
-        //    }
-        //    return Results.Ok(result.Value);
-        //}
+        private static async Task<IResult> GetSupplierById(
+            Guid supplierId,
+            GetSupplierByIdQueryHandler handler,
+            CancellationToken ct)
+        {
+            var result = await handler.Handle(new GetSupplierByIdQuery(supplierId), ct);
+            if (result.IsFailure)
+            {
+                return result.ToProblemDetails();
+            }
+            return Results.Ok(result.Value);
+        }
+        private static async Task<IResult> GetSuppliers(
+          GetSuppliersQueryHandler handler,
+          CancellationToken ct)
+        {
+            var result = await handler.Handle(new GetSuppliersQuery(), ct);
+            if (result.IsFailure)
+            {
+                return result.ToProblemDetails();
+            }
+            return Results.Ok(result.Value);
+        }
     }
 }

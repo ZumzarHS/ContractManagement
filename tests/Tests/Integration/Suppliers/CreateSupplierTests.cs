@@ -1,4 +1,5 @@
 ﻿using Application.Suppliers.CreateSupplier;
+using ContractManagement.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 using System.Net.Http.Json;
