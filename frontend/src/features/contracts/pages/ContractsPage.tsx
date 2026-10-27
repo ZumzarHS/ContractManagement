@@ -1,6 +1,17 @@
+
 import { useEffect, useState } from "react";
 import type { ContractDto } from "../types";
 import { getContracts } from "../api/contractsApi";
+import {
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Typography,
+} from "@mui/material";
 
 function ContractsPage() {
     const [contracts, setContracts] = useState<ContractDto[]>([]);
@@ -34,20 +45,50 @@ function ContractsPage() {
         return <div>Error: {error}</div>;
     }
 
-
     return (
         <div>
-            <h1>Contracts</h1>
+            <Typography variant="h4" sx={{ mb: 3 }}>
+                Contracts
+            </Typography>
 
-            {contracts.map((contract) => (
-                <div key={contract.contractId}>
-                    <h2>{contract.title}</h2>
-                    <p>{contract.description}</p>
-                    <p>Start date: {contract.startDate}</p>
-                    <p>End date: {contract.endDate ?? "No end date"}</p>
-                </div>
-            ))}
+            <ContractsTable contracts={contracts} />
         </div>
+    );
+}
+
+function ContractsTable({ contracts }: {
+    contracts: ContractDto[];
+}) {
+    return (
+        <TableContainer component={Paper}>
+            <Table>
+                <TableHead>
+                    <TableRow>
+                        <TableCell>Contract</TableCell>
+                        <TableCell>Start date</TableCell>
+                        <TableCell>End date</TableCell>
+                        <TableCell>Supplier</TableCell>
+                    </TableRow>
+                </TableHead>
+
+                <TableBody>
+                    {contracts.map((contract) => (
+                        <TableRow key={contract.contractId} hover>
+                            <TableCell>
+                                <Typography sx={{ fontWeight: "medium" }}>
+                                    {contract.title}
+                                </Typography>
+                            </TableCell>
+                            <TableCell>{contract.startDate}</TableCell>
+                            <TableCell>
+                                {contract.endDate ?? "No end date"}
+                            </TableCell>
+                            <TableCell>{contract.supplierId}</TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+        </TableContainer>
     );
 }
 
