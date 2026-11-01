@@ -30,7 +30,8 @@ namespace Application.Contracts.GetContracts
                     contract.NoticePeriodUnit,
                     contract.ContractStatus,
                     contract.ActionStatus,
-                    contract.SupplierId
+                    contract.SupplierId,
+                    contract.Supplier.Name
                 ))
                 .ToList();
 

@@ -36,7 +36,8 @@ public class GetContractByIdQueryHandler
             contract.NoticePeriodUnit,
             contract.ContractStatus,
             contract.ActionStatus,
-            contract.SupplierId
+            contract.SupplierId,
+            contract.Supplier.Name
         );
 
         return Result<ContractResponse>.Success(response);

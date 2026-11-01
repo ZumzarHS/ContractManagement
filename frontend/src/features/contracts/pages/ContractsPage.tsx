@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import type { ContractDto } from "../types";
 import { getContracts } from "../api/contractsApi";
+import { Link } from "react-router-dom";
 import {
     Paper,
     Table,
@@ -16,7 +17,7 @@ import {
 function ContractsPage() {
     const [contracts, setContracts] = useState<ContractDto[]>([]);
     const [error, setError] = useState<string | null>(null);
-    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         async function loadContracts() {
@@ -75,15 +76,26 @@ function ContractsTable({ contracts }: {
                     {contracts.map((contract) => (
                         <TableRow key={contract.contractId} hover>
                             <TableCell>
-                                <Typography sx={{ fontWeight: "medium" }}>
-                                    {contract.title}
-                                </Typography>
+                                <Link
+                                    to={`/contracts/${contract.contractId}`}
+                                    style={{
+                                        color: "inherit",
+                                        textDecoration: "none",
+                                    }}
+                                >
+                                    <Typography sx={{ fontWeight: "medium" }}>
+                                        {contract.title}
+                                    </Typography>
+                                </Link>
                             </TableCell>
+
                             <TableCell>{contract.startDate}</TableCell>
+
                             <TableCell>
                                 {contract.endDate ?? "No end date"}
                             </TableCell>
-                            <TableCell>{contract.supplierId}</TableCell>
+
+                            <TableCell>{contract.supplierName}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

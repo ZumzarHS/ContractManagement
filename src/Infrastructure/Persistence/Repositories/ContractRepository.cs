@@ -23,12 +23,14 @@ public sealed class ContractRepository : IContractRepository
     {
         return await _dbContext.Contracts
            .Include(c=>c.ContractLines)
+           .Include(c=> c.Supplier)
            .FirstOrDefaultAsync(c => c.ContractId == id, ct);
     }
 
     public async Task<IEnumerable<Contract>> GetAllAsync(CancellationToken ct)
     {
         return await _dbContext.Contracts
+            .Include(c => c.Supplier)
             .ToListAsync(ct);
     }
 }

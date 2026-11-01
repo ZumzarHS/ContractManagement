@@ -13,5 +13,6 @@ public sealed record ContractResponse(
     NoticePeriodUnit? NoticePeriodUnit,
     ContractStatus ContractStatus,
     ActionStatus ActionStatus,
-    Guid SupplierId
+    Guid SupplierId,
+    string SupplierName
 );

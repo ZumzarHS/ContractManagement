@@ -10,4 +10,5 @@ export interface ContractDto {
     contractStatus: number;
     actionStatus: number;
     supplierId: string;
+    supplierName: string;
 }
