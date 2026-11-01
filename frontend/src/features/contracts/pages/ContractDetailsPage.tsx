@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import { getContractById } from "../api/contractsApi";
 import type { ContractDto, ContractLineDto } from "../types";
-import { formatNoticePeriod, getContractStatusLabel, getActionStatusLabel } from "../contractUtils";
+import { formatNoticePeriod, getContractStatusLabel, getActionStatusLabel } from "../contractStatus";
 
 function ContractDetailsPage() {
     const { contractId } = useParams<{ contractId: string }>();

@@ -1,19 +1,28 @@
-
-import { Box, Container } from "@mui/material";
+import { Box } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import AppNavigation from "../components/AppNavigation";
 
 function AppLayout() {
     return (
-        <Box sx={{ minHeight: "100vh", bgcolor: "#f5f7fa" }}>
+        <Box
+            sx={{
+                display: "flex",
+                minHeight: "100vh",
+                bgcolor: "#f5f7fa",
+            }}
+        >
             <AppNavigation />
 
-            <Container
-                maxWidth="xl"
-                sx={{ py: 5 }}
+            <Box
+                component="main"
+                sx={{
+                    flexGrow: 1,
+                    minWidth: 0,
+                    p: 4,
+                }}
             >
                 <Outlet />
-            </Container>
+            </Box>
         </Box>
     );
 }

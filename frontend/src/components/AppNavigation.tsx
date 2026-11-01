@@ -1,16 +1,21 @@
-
 import {
-    AppBar,
     Box,
-    Button,
-    Container,
-    Toolbar,
+    Divider,
+    Drawer,
+    List,
+    ListItemButton,
+    ListItemIcon,
+    ListItemText,
     Typography,
 } from "@mui/material";
+
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import BusinessOutlinedIcon from "@mui/icons-material/BusinessOutlined";
 import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
-import { NavLink } from "react-router-dom";
+
+import { NavLink, useLocation } from "react-router-dom";
+
+const drawerWidth = 260;
 
 const navigationItems = [
     {
@@ -31,77 +36,94 @@ const navigationItems = [
 ];
 
 function AppNavigation() {
+    const location = useLocation();
     return (
-        <AppBar
-            position="static"
-            elevation={0}
+        <Drawer
+            variant="permanent"
             sx={{
-                bgcolor: "#183153",
-                borderBottom: "1px solid #304766",
+                width: drawerWidth,
+                flexShrink: 0,
+                "& .MuiDrawer-paper": {
+                    width: drawerWidth,
+                    boxSizing: "border-box",
+                    bgcolor: "#183153",
+                    color: "white",
+                    borderRight: "none",
+                },
             }}
         >
-            <Container maxWidth="xl">
-                <Toolbar
-                    disableGutters
+            <Box sx={{ px: 3, py: 3 }}>
+                <Typography
+                    variant="h6"
                     sx={{
-                        minHeight: 72,
-                        gap: 5,
-                        flexWrap: "wrap",
+                        fontWeight: 700,
+                        letterSpacing: 0.3,
                     }}
                 >
-                    <Typography
-                        variant="h6"
-                        component={NavLink}
-                        to="/contracts"
-                        sx={{
-                            color: "white",
-                            textDecoration: "none",
-                            fontWeight: 700,
-                            whiteSpace: "nowrap",
-                        }}
-                    >
-                        Contract Management
-                    </Typography>
+                    Contract
+                </Typography>
 
-                    <Box
+                <Typography
+                    variant="h6"
+                    sx={{
+                        fontWeight: 700,
+                        color: "#a9c4e8",
+                    }}
+                >
+                    Management
+                </Typography>
+            </Box>
+
+            <Divider sx={{ borderColor: "#304766" }} />
+
+            <List sx={{ px: 2, py: 2 }}>
+                {navigationItems.map((item) => (
+                    <ListItemButton
+                        key={item.path}
+                        component={NavLink}
+                        to={item.path}
+                        selected={
+                            location.pathname === item.path ||
+                            location.pathname.startsWith(`${item.path}/`)
+                        }
                         sx={{
-                            display: "flex",
-                            gap: 1,
-                            alignItems: "center",
-                            flexGrow: 1,
+                            mb: 1,
+                            borderRadius: 1,
+                            color: "#d3dce8",
+                            "& .MuiListItemIcon-root": {
+                                color: "inherit",
+                                minWidth: 40,
+                            },
+                            "&.Mui-selected": {
+                                bgcolor: "white",
+                                color: "#183153",
+                            },
+                            "&.Mui-selected:hover": {
+                                bgcolor: "#edf1f6",
+                            },
+                            "&:hover": {
+                                bgcolor: "rgba(255,255,255,0.12)",
+                            },
                         }}
                     >
-                        {navigationItems.map((item) => (
-                            <Button
-                                key={item.path}
-                                component={NavLink}
-                                to={item.path}
-                                startIcon={item.icon}
-                                sx={{
-                                    color: "white",
-                                    px: 2,
-                                    py: 1,
-                                    borderRadius: 1,
-                                    textTransform: "none",
-                                    "&.active": {
-                                        bgcolor: "white",
-                                        color: "#183153",
+                        <ListItemIcon>
+                            {item.icon}
+                        </ListItemIcon>
+
+                        <ListItemText
+                            primary={item.label}
+                            slotProps={{
+                                primary: {
+                                    sx: {
+                                        fontWeight: 500,
                                     },
-                                    "&:hover": {
-                                        bgcolor: "rgba(255,255,255,0.12)",
-                                    },
-                                    "&.active:hover": {
-                                        bgcolor: "#edf1f6",
-                                    },
-                                }}
-                            >
-                                {item.label}
-                            </Button>
-                        ))}
-                    </Box>
-                </Toolbar>
-            </Container>
-        </AppBar>
+                                },
+                            }}
+                        />
+                    </ListItemButton>
+                ))}
+            </List>
+        </Drawer>
     );
 }
 

@@ -6,6 +6,7 @@ import SuppliersPage from "./features/suppliers/pages/SuppliersPage";
 import SupplierDetailsPage from "./features/suppliers/pages/SupplierDetailsPage";
 import CatalogItemsPage from "./features/catalogItems/pages/CatalogItemsPage";
 import CatalogItemDetailsPage from "./features/catalogItems/pages/CatalogItemDetailsPage";
+import CreateSupplierPage from "./features/suppliers/pages/CreateSupplierPage";
 
 function App() {
     return (
@@ -31,6 +32,7 @@ function App() {
                     path="/suppliers/:supplierId"
                     element={<SupplierDetailsPage />}
                 />
+                <Route path="suppliers/new" element={<CreateSupplierPage />} />
                 <Route
                     path="/catalogitems"
                     element={<CatalogItemsPage />}

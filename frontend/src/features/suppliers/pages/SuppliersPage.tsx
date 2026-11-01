@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
+    Box,
+    Button,
     Paper,
     Table,
     TableBody,
@@ -10,6 +12,7 @@ import {
     TableRow,
     Typography,
 } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 import { getSuppliers } from "../api/suppliersApi";
 import { getSupplierStatusLabel } from "../supplierStatus";
 import type { SupplierDto } from "../types";
@@ -18,6 +21,7 @@ function SuppliersPage() {
     const [suppliers, setSuppliers] = useState<SupplierDto[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
         async function loadSuppliers() {
@@ -48,9 +52,24 @@ function SuppliersPage() {
 
     return (
         <div>
-            <Typography variant="h4" sx={{ mb: 3 }}>
-                Suppliers
-            </Typography>
+            <Box sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                mb: 3,
+            }}>
+                <Typography variant="h4">
+                    Suppliers
+                </Typography>
+
+                <Button
+                    variant="contained"
+                    startIcon={<AddIcon />}
+                    onClick={() => navigate("/suppliers/new")}
+                >
+                    Create Supplier
+                </Button>
+            </Box>
 
             <SuppliersTable suppliers={suppliers} />
         </div>

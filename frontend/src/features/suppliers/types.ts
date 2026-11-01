@@ -10,3 +10,12 @@ export interface SupplierDto {
     phoneNumber: string | null;
     status: SupplierStatus;
 }
+
+export interface CreateSupplierRequest {
+    name: string;
+    address: string;
+    cvr: string;
+    contactPerson: string | null;
+    email: string | null;
+    phoneNumber: string | null;
+}
