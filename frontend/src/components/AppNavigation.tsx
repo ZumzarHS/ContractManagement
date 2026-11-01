@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import BusinessOutlinedIcon from "@mui/icons-material/BusinessOutlined";
+import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
 import { NavLink } from "react-router-dom";
 
 const navigationItems = [
@@ -21,6 +22,11 @@ const navigationItems = [
         label: "Suppliers",
         path: "/suppliers",
         icon: <BusinessOutlinedIcon />,
+    },
+    {
+        label: "Catalog items",
+        path: "/catalogitems",
+        icon: <Inventory2OutlinedIcon />,
     },
 ];
 

@@ -37,6 +37,7 @@ app.UseSwaggerUI();
 // app.MapControllers();
 app.MapContractEndpoints();
 app.MapSupplierEndpoints();
+app.MapCatalogItemEndpoints();
 
 app.Run();
 
