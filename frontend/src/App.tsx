@@ -6,6 +6,8 @@ import SuppliersPage from "./features/suppliers/pages/SuppliersPage";
 import SupplierDetailsPage from "./features/suppliers/pages/SupplierDetailsPage";
 import CatalogItemsPage from "./features/catalogItems/pages/CatalogItemsPage";
 import CatalogItemDetailsPage from "./features/catalogItems/pages/CatalogItemDetailsPage";
+import CreateCatalogItemPage from "./features/catalogItems/pages/CreateCatalogItemPage";
+import CreateContractPage from "./features/contracts/pages/CreateContractPage";
 import CreateSupplierPage from "./features/suppliers/pages/CreateSupplierPage";
 
 function App() {
@@ -19,6 +21,10 @@ function App() {
                 <Route
                     path="/contracts"
                     element={<ContractsPage />}
+                />
+                <Route
+                    path="/contracts/new"
+                    element={<CreateContractPage />}
                 />
                  <Route
                     path="/contracts/:contractId"
@@ -36,6 +42,10 @@ function App() {
                 <Route
                     path="/catalogitems"
                     element={<CatalogItemsPage />}
+                />
+                <Route
+                    path="/catalogitems/new"
+                    element={<CreateCatalogItemPage />}
                 />
                 <Route
                     path="/catalogitems/:catalogItemId"

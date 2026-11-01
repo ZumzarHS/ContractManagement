@@ -32,3 +32,29 @@ export interface ContractLineDto {
     paymentFrequencyInterval: number;
     paymentFrequencyUnit: number;
 }
+
+export interface CreateContractRequest {
+    supplierId: string;
+    title: string;
+    description: string | null;
+    startDate: string;
+    endDate: string | null;
+    actionDate: string | null;
+    noticePeriodValue: number | null;
+    noticePeriodUnit: number | null;
+    contractLines: CreateContractLineRequest[];
+}
+
+export interface CreateContractLineRequest {
+    catalogItemId: string;
+    producer: string | null;
+    model: string | null;
+    price: number;
+    quantity: number | null;
+    description: string | null;
+    initialAmount: number | null;
+    deliveryFrequencyInterval: number | null;
+    deliveryFrequencyUnit: number | null;
+    paymentFrequencyInterval: number;
+    paymentFrequencyUnit: number;
+}

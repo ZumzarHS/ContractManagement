@@ -3,7 +3,9 @@ import { useEffect, useState } from "react";
 import type { ContractDto } from "../types";
 import { getContracts } from "../api/contractsApi";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
+    Button,
     Paper,
     Table,
     TableBody,
@@ -11,10 +13,13 @@ import {
     TableContainer,
     TableHead,
     TableRow,
+    Stack,
     Typography,
 } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 
 function ContractsPage() {
+    const navigate = useNavigate();
     const [contracts, setContracts] = useState<ContractDto[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -48,9 +53,19 @@ function ContractsPage() {
 
     return (
         <div>
-            <Typography variant="h4" sx={{ mb: 3 }}>
-                Contracts
-            </Typography>
+            <Stack
+                direction="row"
+                sx={{ mb: 3, justifyContent: "space-between", alignItems: "center" }}
+            >
+                <Typography variant="h4">Contracts</Typography>
+                <Button
+                    variant="contained"
+                    startIcon={<AddIcon />}
+                    onClick={() => navigate("/contracts/new")}
+                >
+                    Create Contract
+                </Button>
+            </Stack>
 
             <ContractsTable contracts={contracts} />
         </div>

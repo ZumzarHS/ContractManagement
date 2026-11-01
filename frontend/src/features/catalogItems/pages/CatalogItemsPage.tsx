@@ -8,13 +8,18 @@ import {
     TableContainer,
     TableHead,
     TableRow,
+    Button,
+    Stack,
     Typography,
 } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import { useNavigate } from "react-router-dom";
 import { getCatalogItems } from "../api/catalogItemsApi";
 import { getCatalogItemTypeLabel } from "../catalogItemUtils";
 import type { CatalogItemDto } from "../types";
 
 function CatalogItemsPage() {
+    const navigate = useNavigate();
     const [catalogItems, setCatalogItems] = useState<CatalogItemDto[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -48,9 +53,19 @@ function CatalogItemsPage() {
 
     return (
         <div>
-            <Typography variant="h4" sx={{ mb: 3 }}>
-                Catalog items
-            </Typography>
+            <Stack
+                direction="row"
+                sx={{ mb: 3, justifyContent: "space-between", alignItems: "center" }}
+            >
+                <Typography variant="h4">Catalog Items</Typography>
+                <Button
+                    variant="contained"
+                    startIcon={<AddIcon />}
+                    onClick={() => navigate("/catalogitems/new")}
+                >
+                    Create Catalog Item
+                </Button>
+            </Stack>
 
             <CatalogItemsTable catalogItems={catalogItems} />
         </div>
