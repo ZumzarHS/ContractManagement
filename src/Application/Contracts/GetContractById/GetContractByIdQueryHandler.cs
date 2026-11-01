@@ -37,7 +37,22 @@ public class GetContractByIdQueryHandler
             contract.ContractStatus,
             contract.ActionStatus,
             contract.SupplierId,
-            contract.Supplier.Name
+            contract.Supplier.Name,
+            contract.ContractLines.Select(cl => new ContractLineResponse(
+                cl.ContractLineId,
+                cl.CatalogItemId,
+                cl.CatalogItem.Name,
+                cl.Producer,
+                cl.Model,
+                cl.Price,
+                cl.Quantity,
+                cl.Description,
+                cl.InitialAmount,
+                cl.DeliveryFrequencyInterval,
+                cl.DeliveryFrequencyUnit,
+                cl.PaymentFrequencyInterval,
+                cl.PaymentFrequencyUnit
+            )).ToList()
         );
 
         return Result<ContractResponse>.Success(response);

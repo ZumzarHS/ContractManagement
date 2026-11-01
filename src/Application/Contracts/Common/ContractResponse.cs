@@ -14,5 +14,6 @@ public sealed record ContractResponse(
     ContractStatus ContractStatus,
     ActionStatus ActionStatus,
     Guid SupplierId,
-    string SupplierName
+    string SupplierName,
+    IReadOnlyList<ContractLineResponse> ContractLines
 );

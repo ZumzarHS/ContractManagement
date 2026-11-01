@@ -12,14 +12,14 @@ namespace Application.Contracts.GetContracts
         {
             _contracts = contracts;
         }
-        public async Task<Result<IReadOnlyList<ContractResponse>>> Handle(
+        public async Task<Result<IReadOnlyList<ContractListResponse>>> Handle(
             GetContractsQuery query,
             CancellationToken ct)
         {
             var contracts = await _contracts.GetAllAsync(ct);
            
             var response = contracts
-                .Select(contract => new ContractResponse(
+                .Select(contract => new ContractListResponse(
                     contract.ContractId,
                     contract.Title,
                     contract.Description,
@@ -35,7 +35,7 @@ namespace Application.Contracts.GetContracts
                 ))
                 .ToList();
 
-            return Result<IReadOnlyList<ContractResponse>>.Success(response);
+            return Result<IReadOnlyList<ContractListResponse>>.Success(response);
         }
     }
 }
