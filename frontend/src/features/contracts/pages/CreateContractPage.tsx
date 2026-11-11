@@ -263,12 +263,13 @@ function ContractLineForm({ line, index, catalogItems, onChange, onRemove, onCat
     onCatalogItemCreated: (item: CatalogItemDto) => void;
 }) {
     const [isCreatingCatalogItem, setIsCreatingCatalogItem] = useState(false);
+    const [isSubmittingCatalogItem, setIsSubmittingCatalogItem] = useState(false);
     const [newItem, setNewItem] = useState<CreateCatalogItemRequest>({ name: "", description: null, type: 0 });
     const [error, setError] = useState<string | null>(null);
 
-    async function handleCreateCatalogItem(event: FormEvent<HTMLFormElement>) {
-        event.preventDefault();
+    async function handleCreateCatalogItem() {
         setError(null);
+        setIsSubmittingCatalogItem(true);
         try {
             const request = { ...newItem, name: newItem.name.trim(), description: newItem.description?.trim() || null };
             const id = await createCatalogItem(request);
@@ -277,6 +278,8 @@ function ContractLineForm({ line, index, catalogItems, onChange, onRemove, onCat
             setIsCreatingCatalogItem(false);
         } catch {
             setError("Catalog item kunne ikke oprettes.");
+        } finally {
+            setIsSubmittingCatalogItem(false);
         }
     }
 
@@ -307,7 +310,7 @@ function ContractLineForm({ line, index, catalogItems, onChange, onRemove, onCat
                     </Button>
                 </Stack>
                 {isCreatingCatalogItem && (
-                    <Box component="form" onSubmit={handleCreateCatalogItem} sx={{ p: 2, bgcolor: "#f5f7fa" }}>
+                    <Box sx={{ p: 2, bgcolor: "#f5f7fa" }}>
                         <Stack spacing={2}>
                             {error && <Alert severity="error">{error}</Alert>}
                             <TextField label="Name" value={newItem.name} onChange={(e) => setNewItem((p) => ({ ...p, name: e.target.value }))} required fullWidth />
@@ -316,7 +319,14 @@ function ContractLineForm({ line, index, catalogItems, onChange, onRemove, onCat
                                 <MenuItem value={1}>Service</MenuItem>
                             </TextField>
                             <TextField label="Description" value={newItem.description ?? ""} onChange={(e) => setNewItem((p) => ({ ...p, description: e.target.value }))} multiline minRows={2} fullWidth />
-                            <Button type="submit" variant="contained">Create and select</Button>
+                            <Button
+                                type="button"
+                                variant="contained"
+                                disabled={!newItem.name.trim() || isSubmittingCatalogItem}
+                                onClick={handleCreateCatalogItem}
+                            >
+                                {isSubmittingCatalogItem ? "Creating..." : "Create and select"}
+                            </Button>
                         </Stack>
                     </Box>
                 )}

@@ -29,7 +29,7 @@ const navigationItems = [
         icon: <BusinessOutlinedIcon />,
     },
     {
-        label: "Catalog items",
+        label: "Catalog Items",
         path: "/catalogitems",
         icon: <Inventory2OutlinedIcon />,
     },
