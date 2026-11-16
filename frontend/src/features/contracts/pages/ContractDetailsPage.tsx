@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
+    Button,
     Paper,
     Stack,
     Table,
@@ -17,6 +18,7 @@ import { formatNoticePeriod, getContractStatusLabel, getActionStatusLabel } from
 
 function ContractDetailsPage() {
     const { contractId } = useParams<{ contractId: string }>();
+    const navigate = useNavigate();
     const [contract, setContract] = useState<ContractDto | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -64,9 +66,18 @@ function ContractDetailsPage() {
 
     return (
         <div>
-            <Typography variant="h4" sx={{ mb: 3 }}>
-                {contract.title}
-            </Typography>
+            <Stack
+                direction="row"
+                sx={{ mb: 3, justifyContent: "space-between", alignItems: "center" }}
+            >
+                <Typography variant="h4">{contract.title}</Typography>
+                <Button
+                    variant="contained"
+                    onClick={() => navigate(`/contracts/${contract.contractId}/edit`)}
+                >
+                    Edit Contract
+                </Button>
+            </Stack>
 
             <Paper sx={{ p: 3 }}>
                 <Stack spacing={2}>

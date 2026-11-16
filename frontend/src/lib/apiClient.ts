@@ -28,3 +28,17 @@ export async function apiPost<TRequest, TResponse>(
 
     return response.json() as Promise<TResponse>;
 }
+
+export async function apiPut<TRequest>(path: string, data: TRequest): Promise<void> {
+    const response = await fetch(`${API_BASE_URL}${path}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+        throw new Error(`API request failed: ${response.status}`);
+    }
+}

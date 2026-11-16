@@ -1,5 +1,9 @@
-import { apiGet, apiPost } from "../../../lib/apiClient";
-import type { ContractDto, CreateContractRequest } from "../types";
+import { apiGet, apiPost, apiPut } from "../../../lib/apiClient";
+import type {
+    ContractDto,
+    CreateContractRequest,
+    UpdateContractRequest,
+} from "../types";
 
 export function getContracts(): Promise<ContractDto[]> {
     return apiGet<ContractDto[]>("/contracts");
@@ -11,4 +15,8 @@ export function getContractById(contractId: string): Promise<ContractDto> {
 
 export function createContract(contract: CreateContractRequest): Promise<string> {
     return apiPost<CreateContractRequest, string>("/contracts", contract);
+}
+
+export function updateContractById(contractId: string,contract: UpdateContractRequest,): Promise<void> {
+    return apiPut<UpdateContractRequest>(`/contracts/${contractId}`, contract);
 }

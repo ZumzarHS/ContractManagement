@@ -10,6 +10,9 @@ namespace Infrastructure.Persistence.Configurations
         {
             builder.HasKey(cl => cl.ContractLineId);
 
+            builder.Property(cl => cl.ContractLineId)
+           .ValueGeneratedNever();
+
             builder.Property(cl => cl.Description)
            .HasMaxLength(1000);
 

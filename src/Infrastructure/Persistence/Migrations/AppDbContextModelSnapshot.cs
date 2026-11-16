@@ -42,7 +42,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasKey("CatalogItemId");
 
-                    b.ToTable("CatalogItems");
+                    b.ToTable("CatalogItems", (string)null);
                 });
 
             modelBuilder.Entity("ContractManagement.Domain.Entities.Contract", b =>
@@ -93,7 +93,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasIndex("SupplierId");
 
-                    b.ToTable("Contracts");
+                    b.ToTable("Contracts", (string)null);
                 });
 
             modelBuilder.Entity("ContractManagement.Domain.Entities.ContractHistory", b =>
@@ -130,7 +130,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.ToTable("ContractHistories");
+                    b.ToTable("ContractHistories", (string)null);
                 });
 
             modelBuilder.Entity("ContractManagement.Domain.Entities.ContractLine", b =>
@@ -184,7 +184,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasIndex("ContractId");
 
-                    b.ToTable("ContractLines");
+                    b.ToTable("ContractLines", (string)null);
                 });
 
             modelBuilder.Entity("ContractManagement.Domain.Entities.Employee", b =>
@@ -203,7 +203,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasKey("EmployeeId");
 
-                    b.ToTable("Employees");
+                    b.ToTable("Employees", (string)null);
                 });
 
             modelBuilder.Entity("ContractManagement.Domain.Entities.Supplier", b =>
@@ -244,7 +244,7 @@ namespace Infrastructure.Persistence.Migrations
                     b.HasIndex("Cvr")
                         .IsUnique();
 
-                    b.ToTable("Suppliers");
+                    b.ToTable("Suppliers", (string)null);
                 });
 
             modelBuilder.Entity("ContractManagement.Domain.Entities.Contract", b =>

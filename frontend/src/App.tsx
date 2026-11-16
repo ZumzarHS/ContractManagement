@@ -9,6 +9,7 @@ import CatalogItemDetailsPage from "./features/catalogItems/pages/CatalogItemDet
 import CreateCatalogItemPage from "./features/catalogItems/pages/CreateCatalogItemPage";
 import CreateContractPage from "./features/contracts/pages/CreateContractPage";
 import CreateSupplierPage from "./features/suppliers/pages/CreateSupplierPage";
+import UpdateContractPage from "./features/contracts/pages/UpdateContractPage";
 
 function App() {
     return (
@@ -30,6 +31,10 @@ function App() {
                     path="/contracts/:contractId"
                     element={<ContractDetailsPage />}
                 />
+                 <Route
+                     path="/contracts/:contractId/edit"
+                     element={<UpdateContractPage />}
+                 />
                 <Route
                     path="/suppliers"
                     element={<SuppliersPage />}

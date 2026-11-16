@@ -58,3 +58,19 @@ export interface CreateContractLineRequest {
     paymentFrequencyInterval: number;
     paymentFrequencyUnit: number;
 }
+
+export interface UpdateContractRequest {
+    supplierId: string;
+    title: string;
+    description: string | null;
+    startDate: string;
+    endDate: string | null;
+    actionDate: string | null;
+    noticePeriodValue: number | null;
+    noticePeriodUnit: number | null;
+    contractLines: UpdateContractLineRequest[];
+}
+
+export interface UpdateContractLineRequest extends CreateContractLineRequest {
+    contractLineId: string | null;
+}

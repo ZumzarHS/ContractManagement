@@ -71,5 +71,44 @@ namespace ContractManagement.Domain.Entities
             Contract = contract;
             ContractId = contract.ContractId;
         }
+
+        public void UpdateDetails(
+    Guid catalogItemId,
+    string? producer,
+    string? model,
+    decimal price,
+    int? quantity,
+    string? description,
+    decimal? initialAmount,
+    int? deliveryFrequencyInterval,
+    FrequencyUnit? deliveryFrequencyUnit,
+    int paymentFrequencyInterval,
+    FrequencyUnit paymentFrequencyUnit)
+        {
+            if (catalogItemId == Guid.Empty)
+                throw new ArgumentException("CatalogItemId is required.");
+
+            if (price < 0)
+                throw new ArgumentException("Price cannot be negative.");
+
+            if (quantity.HasValue && quantity.Value <= 0)
+                throw new ArgumentException("Quantity must be positive.");
+
+            if (paymentFrequencyInterval <= 0)
+                throw new ArgumentException(
+                    "Payment frequency interval must be positive.");
+
+            CatalogItemId = catalogItemId;
+            Producer = producer;
+            Model = model;
+            Price = price;
+            Quantity = quantity;
+            Description = description;
+            InitialAmount = initialAmount;
+            DeliveryFrequencyInterval = deliveryFrequencyInterval;
+            DeliveryFrequencyUnit = deliveryFrequencyUnit;
+            PaymentFrequencyInterval = paymentFrequencyInterval;
+            PaymentFrequencyUnit = paymentFrequencyUnit;
+        }
     }
 }

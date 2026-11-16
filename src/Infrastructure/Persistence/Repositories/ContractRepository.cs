@@ -33,4 +33,10 @@ public sealed class ContractRepository : IContractRepository
             .Include(c => c.Supplier)
             .ToListAsync(ct);
     }
+
+    public async Task SaveChangesAsync(CancellationToken ct)
+    {
+        await _dbContext.SaveChangesAsync(ct);
+    }
+
 }

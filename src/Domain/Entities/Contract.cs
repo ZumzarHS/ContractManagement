@@ -63,6 +63,35 @@ namespace ContractManagement.Domain.Entities
 
             return contract;
         }
+        public void UpdateDetails(
+    Guid supplierId,
+    string title,
+    string? description,
+    DateOnly startDate,
+    DateOnly? endDate,
+    DateOnly? actionDate,
+    int? noticePeriodValue,
+    NoticePeriodUnit? noticePeriodUnit)
+        {
+            if (supplierId == Guid.Empty)
+                throw new ArgumentException("SupplierId is required.");
+
+            if (string.IsNullOrWhiteSpace(title))
+                throw new ArgumentException("Title is required.");
+
+            if (endDate.HasValue && endDate.Value < startDate)
+                throw new ArgumentException(
+                    "End date cannot be before start date.");
+
+            SupplierId = supplierId;
+            Title = title;
+            Description = description;
+            StartDate = startDate;
+            EndDate = endDate;
+            ActionDate = actionDate;
+            NoticePeriodValue = noticePeriodValue;
+            NoticePeriodUnit = noticePeriodUnit;
+        }
 
         public void AddLine(ContractLine line)
         {
@@ -71,5 +100,15 @@ namespace ContractManagement.Domain.Entities
             line.SetContract(this);
             ContractLines.Add(line);
         }
+
+        public void RemoveLine(ContractLine line)
+        {
+            ArgumentNullException.ThrowIfNull(line);
+
+            if (!ContractLines.Remove(line))
+                throw new InvalidOperationException(
+                    "Contract line does not belong to this contract.");
+        }
+
     }
 }

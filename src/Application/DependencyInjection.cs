@@ -2,6 +2,7 @@
 using Application.Contracts.CreateContract;
 using Application.Contracts.GetContractById;
 using Application.Contracts.GetContracts;
+using Application.Contracts.UpdateContract;
 using Application.Suppliers.CreateSupplier;
 using Application.Suppliers.GetSupplierById;
 using Application.Suppliers.GetSuppliers;
@@ -19,6 +20,7 @@ public static class DependencyInjection
         services.AddScoped<CreateContractCommandHandler>();
         services.AddScoped<GetContractByIdQueryHandler>();
         services.AddScoped<GetContractsQueryHandler>();
+        services.AddScoped<UpdateContractCommandHandler>();
 
         // Suppliers
         services.AddScoped<CreateSupplierCommandHandler>();

@@ -2,6 +2,8 @@
 using Application.Contracts.GetContracts;
 using Application.Contracts.GetContractById;
 using ContractManagement.Api.Common;
+using Application.Contracts.UpdateContract;
+using Api.Contracts;
 
 namespace ContractManagement.Api.Endpoints
 {
@@ -13,8 +15,9 @@ namespace ContractManagement.Api.Endpoints
                 .WithTags("Contracts");
 
             group.MapPost("", CreateContract);
-            group.MapGet("/{contractId:guid}", GetContractById);
             group.MapGet("/", GetContracts);
+            group.MapGet("/{contractId:guid}", GetContractById);
+            group.MapPut("/{contractId:guid}", UpdateContract);
         }
 
         private static async Task<IResult> CreateContract(
@@ -33,6 +36,17 @@ namespace ContractManagement.Api.Endpoints
                 statusCode: StatusCodes.Status201Created);
         }
 
+        private static async Task<IResult> GetContracts(
+          GetContractsQueryHandler handler,
+          CancellationToken ct)
+        {
+            var result = await handler.Handle(new GetContractsQuery(), ct);
+            if (result.IsFailure)
+            {
+                return result.ToProblemDetails();
+            }
+            return Results.Ok(result.Value);
+        }
         private static async Task<IResult> GetContractById(
             Guid contractId,
             GetContractByIdQueryHandler handler,
@@ -45,16 +59,44 @@ namespace ContractManagement.Api.Endpoints
             }
             return Results.Ok(result.Value);
         }
-        private static async Task<IResult> GetContracts(
-          GetContractsQueryHandler handler,
-          CancellationToken ct)
+        private static async Task<IResult> UpdateContract(Guid contractId, UpdateContractRequest request, UpdateContractCommandHandler handler, CancellationToken ct)
         {
-            var result = await handler.Handle(new GetContractsQuery(), ct);
+            var contractLines = request.ContractLines.Select(line =>
+                new UpdateContractLineCommand(
+                    line.ContractLineId,
+                    line.CatalogItemId,
+                    line.Producer,
+                    line.Model,
+                    line.Price,
+                    line.Quantity,
+                    line.Description,
+                    line.InitialAmount,
+                    line.DeliveryFrequencyInterval,
+                    line.DeliveryFrequencyUnit,
+                    line.PaymentFrequencyInterval,
+                    line.PaymentFrequencyUnit
+                )).ToList();
+
+            var command = new UpdateContractCommand(
+            contractId,
+            request.SupplierId,
+            request.Title,
+            request.Description,
+            request.StartDate,
+            request.EndDate,
+            request.ActionDate,
+            request.NoticePeriodValue,
+            request.NoticePeriodUnit,
+            contractLines
+        );
+            var result = await handler.Handle(command, ct);
+
             if (result.IsFailure)
             {
                 return result.ToProblemDetails();
             }
-            return Results.Ok(result.Value);
+            return Results.NoContent();
         }
+    
     }
 }
