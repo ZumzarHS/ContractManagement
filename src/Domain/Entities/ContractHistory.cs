@@ -4,16 +4,15 @@ namespace ContractManagement.Domain.Entities
 {
     public class ContractHistory
     {
-        public Guid ContractHistoryId { get; set; }
-        public DateTime Timestamp { get; set; }
-        public HistoryActionType ActionType { get; set; }
-        public string? Description { get; set; }
-        public string? OldValue { get; set; }
-        public string? NewValue { get; set; }
-        public Guid ContractId { get; set; }
-        public Guid EmployeeId { get; set; }
-        public Contract Contract { get; set; } = null!;
-        public Employee Employee { get; set; } = null!;
-
+        public Guid ContractHistoryId { get; private set; }
+        public DateTime Timestamp { get; private set; }
+        public HistoryActionType ActionType { get; private set; }
+        public string? Description { get; private set; }
+        public string? OldValue { get; private set; }
+        public string? NewValue { get; private set; }
+        public Guid ContractId { get; private set; }
+        public Guid EmployeeId { get; private set; }
+        public Contract Contract { get; private set; } = null!;
+        public Employee Employee { get; private set; } = null!;
     }
 }
