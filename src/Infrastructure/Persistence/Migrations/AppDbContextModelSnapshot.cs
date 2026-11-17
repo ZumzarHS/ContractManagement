@@ -42,7 +42,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasKey("CatalogItemId");
 
-                    b.ToTable("CatalogItems", (string)null);
+                    b.ToTable("CatalogItems");
                 });
 
             modelBuilder.Entity("ContractManagement.Domain.Entities.Contract", b =>
@@ -93,7 +93,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasIndex("SupplierId");
 
-                    b.ToTable("Contracts", (string)null);
+                    b.ToTable("Contracts");
                 });
 
             modelBuilder.Entity("ContractManagement.Domain.Entities.ContractHistory", b =>
@@ -130,13 +130,12 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.ToTable("ContractHistories", (string)null);
+                    b.ToTable("ContractHistories");
                 });
 
             modelBuilder.Entity("ContractManagement.Domain.Entities.ContractLine", b =>
                 {
                     b.Property<Guid>("ContractLineId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("CatalogItemId")
@@ -184,7 +183,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasIndex("ContractId");
 
-                    b.ToTable("ContractLines", (string)null);
+                    b.ToTable("ContractLines");
                 });
 
             modelBuilder.Entity("ContractManagement.Domain.Entities.Employee", b =>
@@ -195,15 +194,40 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("EmployeeId");
 
-                    b.ToTable("Employees", (string)null);
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.ToTable("Employees");
+
+                    b.HasData(
+                        new
+                        {
+                            EmployeeId = new Guid("11111111-1111-1111-1111-111111111111"),
+                            Email = "anders@example.com",
+                            Name = "Anders Andersen"
+                        },
+                        new
+                        {
+                            EmployeeId = new Guid("22222222-2222-2222-2222-222222222222"),
+                            Email = "bo@example.com",
+                            Name = "Bo Hansen"
+                        },
+                        new
+                        {
+                            EmployeeId = new Guid("33333333-3333-3333-3333-333333333333"),
+                            Email = "casper@example.com",
+                            Name = "Casper Nielsen"
+                        });
                 });
 
             modelBuilder.Entity("ContractManagement.Domain.Entities.Supplier", b =>
@@ -244,7 +268,7 @@ namespace Infrastructure.Persistence.Migrations
                     b.HasIndex("Cvr")
                         .IsUnique();
 
-                    b.ToTable("Suppliers", (string)null);
+                    b.ToTable("Suppliers");
                 });
 
             modelBuilder.Entity("ContractManagement.Domain.Entities.Contract", b =>

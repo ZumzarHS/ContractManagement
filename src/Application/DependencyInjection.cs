@@ -9,6 +9,7 @@ using Application.Suppliers.GetSuppliers;
 using Application.CatalogItems.CreateCatalogItem;
 using Application.CatalogItems.GetCatalogItemById;
 using Application.CatalogItems.GetCatalogItems;
+using Application.Employees.GetEmployees;
 
 namespace ContractManagement.Application;
 
@@ -31,6 +32,9 @@ public static class DependencyInjection
         services.AddScoped<CreateCatalogItemCommandHandler>();
         services.AddScoped<GetCatalogItemByIdQueryHandler>();
         services.AddScoped<GetCatalogItemsQueryHandler>();
+
+        // Employees
+        services.AddScoped<GetEmployeesQueryHandler>();
 
         return services;
     }
