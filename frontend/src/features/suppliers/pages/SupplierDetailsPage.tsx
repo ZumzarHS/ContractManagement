@@ -4,6 +4,7 @@ import { Paper, Stack, Typography } from "@mui/material";
 import { getSupplierById } from "../api/suppliersApi";
 import { getSupplierStatusLabel } from "../supplierStatus";
 import type { SupplierDto } from "../types";
+import Detail from "../../../components/Detail";
 
 function SupplierDetailsPage() {
     const { supplierId } = useParams<{ supplierId: string }>();
@@ -71,17 +72,6 @@ function SupplierDetailsPage() {
                     />
                 </Stack>
             </Paper>
-        </div>
-    );
-}
-
-function Detail({ label, value }: { label: string; value?: string | null }) {
-    return (
-        <div>
-            <Typography variant="subtitle2" color="text.secondary">
-                {label}
-            </Typography>
-            <Typography>{value ?? "—"}</Typography>
         </div>
     );
 }

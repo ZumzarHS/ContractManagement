@@ -4,18 +4,13 @@ import {
     Button,
     Paper,
     Stack,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
     Typography,
 } from "@mui/material";
 import { getContractById } from "../api/contractsApi";
 import ContractLinesTable from "../components/ContractLinesTable";
 import type { ContractDto } from "../types";
 import { formatNoticePeriod, getContractStatusLabel, getActionStatusLabel } from "../contractStatus";
+import Detail from "../../../components/Detail";
 
 function ContractDetailsPage() {
     const { contractId } = useParams<{ contractId: string }>();
@@ -130,18 +125,5 @@ function ContractDetailsPage() {
         </div>
     );
 }
-
-function Detail({ label, value }: { label: string; value?: string | null }) {
-    return (
-        <div>
-            <Typography variant="subtitle2" color="text.secondary">
-                {label}
-            </Typography>
-            <Typography>{value ?? "—"}</Typography>
-        </div>
-    );
-}
-
-
 
 export default ContractDetailsPage;

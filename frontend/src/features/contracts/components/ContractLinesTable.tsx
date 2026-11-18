@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import type { ContractLineDto } from "../types";
 
-function ContractLinesTable({ contractLines }: { contractLines: ContractLineDto[] }) {
+export default function ContractLinesTable({ contractLines }: { contractLines: ContractLineDto[] }) {
     if (contractLines.length === 0) {
         return (
             <Typography color="text.secondary">
@@ -84,5 +84,3 @@ function formatFrequency(interval: number | null, unit: number | null): string {
     const units = ["day(s)", "week(s)", "month(s)", "year(s)"];
     return `${interval} ${units[unit] ?? "period(s)"}`;
 }
-
-export default ContractLinesTable;

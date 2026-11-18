@@ -1,18 +1,10 @@
-
 import { useEffect, useState } from "react";
-import type { ContractDto } from "../types";
+import type { ContractListDto } from "../types";
 import { getContracts } from "../api/contractsApi";
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import ContractsTable from "../components/ContractsTable";
 import {
     Button,
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
     Stack,
     Typography,
 } from "@mui/material";
@@ -20,7 +12,7 @@ import AddIcon from "@mui/icons-material/Add";
 
 function ContractsPage() {
     const navigate = useNavigate();
-    const [contracts, setContracts] = useState<ContractDto[]>([]);
+    const [contracts, setContracts] = useState<ContractListDto[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -69,53 +61,6 @@ function ContractsPage() {
 
             <ContractsTable contracts={contracts} />
         </div>
-    );
-}
-
-function ContractsTable({ contracts }: {
-    contracts: ContractDto[];
-}) {
-    return (
-        <TableContainer component={Paper}>
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Contract</TableCell>
-                        <TableCell>Start date</TableCell>
-                        <TableCell>End date</TableCell>
-                        <TableCell>Supplier</TableCell>
-                    </TableRow>
-                </TableHead>
-
-                <TableBody>
-                    {contracts.map((contract) => (
-                        <TableRow key={contract.contractId} hover>
-                            <TableCell>
-                                <Link
-                                    to={`/contracts/${contract.contractId}`}
-                                    style={{
-                                        color: "inherit",
-                                        textDecoration: "none",
-                                    }}
-                                >
-                                    <Typography sx={{ fontWeight: "medium" }}>
-                                        {contract.title}
-                                    </Typography>
-                                </Link>
-                            </TableCell>
-
-                            <TableCell>{contract.startDate}</TableCell>
-
-                            <TableCell>
-                                {contract.endDate ?? "No end date"}
-                            </TableCell>
-
-                            <TableCell>{contract.supplierName}</TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
     );
 }
 

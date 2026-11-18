@@ -1,21 +1,14 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
     Box,
     Button,
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
     Typography,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { getSuppliers } from "../api/suppliersApi";
-import { getSupplierStatusLabel } from "../supplierStatus";
 import type { SupplierDto } from "../types";
+import SuppliersTable from "../components/SuppliersTable";
 
 function SuppliersPage() {
     const [suppliers, setSuppliers] = useState<SupplierDto[]>([]);
@@ -73,50 +66,6 @@ function SuppliersPage() {
 
             <SuppliersTable suppliers={suppliers} />
         </div>
-    );
-}
-
-function SuppliersTable({ suppliers }: { suppliers: SupplierDto[] }) {
-    return (
-        <TableContainer component={Paper}>
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Supplier</TableCell>
-                        <TableCell>CVR</TableCell>
-                        <TableCell>Contact person</TableCell>
-                        <TableCell>Email</TableCell>
-                        <TableCell>Phone</TableCell>
-                        <TableCell>Status</TableCell>
-                    </TableRow>
-                </TableHead>
-
-                <TableBody>
-                    {suppliers.map((supplier) => (
-                        <TableRow key={supplier.supplierId} hover>
-                            <TableCell>
-                                <Link
-                                    to={`/suppliers/${supplier.supplierId}`}
-                                    style={{
-                                        color: "inherit",
-                                        textDecoration: "none",
-                                    }}
-                                >
-                                    <Typography sx={{ fontWeight: "medium" }}>
-                                        {supplier.name}
-                                    </Typography>
-                                </Link>
-                            </TableCell>
-                            <TableCell>{supplier.cvr}</TableCell>
-                            <TableCell>{supplier.contactPerson ?? "—"}</TableCell>
-                            <TableCell>{supplier.email ?? "—"}</TableCell>
-                            <TableCell>{supplier.phoneNumber ?? "—"}</TableCell>
-                            <TableCell>{getSupplierStatusLabel(supplier.status)}</TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
     );
 }
 

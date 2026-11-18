@@ -1,22 +1,10 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import {
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Button,
-    Stack,
-    Typography,
-} from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { useNavigate } from "react-router-dom";
 import { getCatalogItems } from "../api/catalogItemsApi";
-import { getCatalogItemTypeLabel } from "../catalogItemUtils";
 import type { CatalogItemDto } from "../types";
+import CatalogItemsTable from "../components/CatalogItemsTable";
 
 function CatalogItemsPage() {
     const navigate = useNavigate();
@@ -69,46 +57,6 @@ function CatalogItemsPage() {
 
             <CatalogItemsTable catalogItems={catalogItems} />
         </div>
-    );
-}
-
-function CatalogItemsTable({ catalogItems }: { catalogItems: CatalogItemDto[] }) {
-    return (
-        <TableContainer component={Paper}>
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Catalog item</TableCell>
-                        <TableCell>Type</TableCell>
-                        <TableCell>Description</TableCell>
-                    </TableRow>
-                </TableHead>
-
-                <TableBody>
-                    {catalogItems.map((catalogItem) => (
-                        <TableRow key={catalogItem.catalogItemId} hover>
-                            <TableCell>
-                                <Link
-                                    to={`/catalogitems/${catalogItem.catalogItemId}`}
-                                    style={{
-                                        color: "inherit",
-                                        textDecoration: "none",
-                                    }}
-                                >
-                                    <Typography sx={{ fontWeight: "medium" }}>
-                                        {catalogItem.name}
-                                    </Typography>
-                                </Link>
-                            </TableCell>
-                            <TableCell>
-                                {getCatalogItemTypeLabel(catalogItem.type)}
-                            </TableCell>
-                            <TableCell>{catalogItem.description ?? "—"}</TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
     );
 }
 

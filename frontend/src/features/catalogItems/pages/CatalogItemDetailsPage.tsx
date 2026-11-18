@@ -4,6 +4,7 @@ import { Paper, Stack, Typography } from "@mui/material";
 import { getCatalogItemById } from "../api/catalogItemsApi";
 import { getCatalogItemTypeLabel } from "../catalogItemUtils";
 import type { CatalogItemDto } from "../types";
+import Detail from "../../../components/Detail";
 
 function CatalogItemDetailsPage() {
     const { catalogItemId } = useParams<{ catalogItemId: string }>();
@@ -68,17 +69,6 @@ function CatalogItemDetailsPage() {
                     <Detail label="Description" value={catalogItem.description} />
                 </Stack>
             </Paper>
-        </div>
-    );
-}
-
-function Detail({ label, value }: { label: string; value: string | null }) {
-    return (
-        <div>
-            <Typography variant="subtitle2" color="text.secondary">
-                {label}
-            </Typography>
-            <Typography>{value ?? "—"}</Typography>
         </div>
     );
 }
