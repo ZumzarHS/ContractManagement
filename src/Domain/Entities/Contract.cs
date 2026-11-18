@@ -20,6 +20,7 @@ namespace ContractManagement.Domain.Entities
         public Contract? PreviousContract { get; private set; }
 
         public ICollection<ContractLine> ContractLines { get; private set; } = new List<ContractLine>();
+        public ICollection<ContractHistory> History { get; private set; } = new List<ContractHistory>();
 
         // EF Core kan bruge denne constructor til at indlæse entiteter.
         private Contract() { }
@@ -64,14 +65,14 @@ namespace ContractManagement.Domain.Entities
             return contract;
         }
         public void UpdateDetails(
-    Guid supplierId,
-    string title,
-    string? description,
-    DateOnly startDate,
-    DateOnly? endDate,
-    DateOnly? actionDate,
-    int? noticePeriodValue,
-    NoticePeriodUnit? noticePeriodUnit)
+            Guid supplierId,
+            string title,
+            string? description,
+            DateOnly startDate,
+            DateOnly? endDate,
+            DateOnly? actionDate,
+            int? noticePeriodValue,
+            NoticePeriodUnit? noticePeriodUnit)
         {
             if (supplierId == Guid.Empty)
                 throw new ArgumentException("SupplierId is required.");
@@ -108,6 +109,12 @@ namespace ContractManagement.Domain.Entities
             if (!ContractLines.Remove(line))
                 throw new InvalidOperationException(
                     "Contract line does not belong to this contract.");
+        }
+
+        public void AddHistory(ContractHistory history)
+        {
+            ArgumentNullException.ThrowIfNull(history);
+            History.Add(history);
         }
 
     }

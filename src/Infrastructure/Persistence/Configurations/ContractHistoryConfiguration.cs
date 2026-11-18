@@ -21,7 +21,7 @@ namespace Infrastructure.Persistence.Configurations
 
             // ContractHistory -> Contract
             builder.HasOne(ch => ch.Contract)
-               .WithMany()
+               .WithMany(contract => contract.History)
                .HasForeignKey(ch => ch.ContractId)
                .OnDelete(DeleteBehavior.Restrict);
 

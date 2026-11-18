@@ -18,6 +18,7 @@ import { getSuppliers } from "../../suppliers/api/suppliersApi";
 import type { SupplierDto } from "../../suppliers/types";
 import { createContract } from "../api/contractsApi";
 import type { CreateContractLineRequest, CreateContractRequest } from "../types";
+import { useEmployee } from "../../employees/hooks/useEmployee";
 
 const emptyLine: CreateContractLineRequest = {
     catalogItemId: "",
@@ -35,6 +36,7 @@ const emptyLine: CreateContractLineRequest = {
 
 function CreateContractPage() {
     const navigate = useNavigate();
+    const { selectedEmployee } = useEmployee();
     const [suppliers, setSuppliers] = useState<SupplierDto[]>([]);
     const [catalogItems, setCatalogItems] = useState<CatalogItemDto[]>([]);
     const [formData, setFormData] = useState<CreateContractRequest>({
@@ -47,6 +49,7 @@ function CreateContractPage() {
         noticePeriodValue: null,
         noticePeriodUnit: null,
         contractLines: [],
+        employeeId: "",
     });
     const [isLoadingOptions, setIsLoadingOptions] = useState(true);
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -111,12 +114,18 @@ function CreateContractPage() {
 
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
+        if (!selectedEmployee) {
+            setError("Select an active employee before creating a contract.");
+            return;
+        }
+
         setError(null);
         setIsSubmitting(true);
 
         try {
             const contractId = await createContract({
                 ...formData,
+                employeeId: selectedEmployee.employeeId,
                 title: formData.title.trim(),
                 description: formData.description?.trim() || null,
                 contractLines: formData.contractLines.map((line) => ({

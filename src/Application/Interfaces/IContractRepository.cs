@@ -8,5 +8,6 @@ namespace Application.Interfaces
         Task<Contract?> GetByIdAsync(Guid id, CancellationToken ct);
         Task<IEnumerable<Contract>> GetAllAsync(CancellationToken ct);
         Task SaveChangesAsync(CancellationToken ct);
+        Task AddHistoryAsync(ContractHistory contractHistory, CancellationToken ct);
     }
 }

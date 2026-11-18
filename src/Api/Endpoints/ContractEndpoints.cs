@@ -87,7 +87,8 @@ namespace ContractManagement.Api.Endpoints
             request.ActionDate,
             request.NoticePeriodValue,
             request.NoticePeriodUnit,
-            contractLines
+            contractLines,
+            request.EmployeeId
         );
             var result = await handler.Handle(command, ct);
 

@@ -27,6 +27,10 @@ namespace Tests.Integration.Contracts
                );
 
             DbContext.Suppliers.Add(supplier);
+            await EnsureEmployeeExists(
+                Guid.Parse("11111111-1111-1111-1111-111111111111"),
+                "Anders Andersen",
+                "anders@example.com");
             await DbContext.SaveChangesAsync();
 
             var command = new CreateContractCommand(
@@ -38,7 +42,8 @@ namespace Tests.Integration.Contracts
                 ActionDate: new DateOnly(2026, 11, 1),
                 NoticePeriodValue: 3,
                 NoticePeriodUnit: NoticePeriodUnit.Months,
-                ContractLines: []);
+                ContractLines: [],
+                EmployeeId: Guid.Parse("11111111-1111-1111-1111-111111111111"));
 
             var createResponse = await Client.PostAsJsonAsync(
                 "/api/contracts",

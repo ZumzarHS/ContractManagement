@@ -1,23 +1,37 @@
 ﻿using Application.Common.Results;
+using Application.Contracts.Common;
 using Application.Interfaces;
 using ContractManagement.Domain.Entities;
+using ContractManagement.Domain.Enums;
 
 namespace Application.Contracts.UpdateContract
 {
     public sealed class UpdateContractCommandHandler
     {
         private readonly IContractRepository _contractRepository;
+        private readonly IEmployeeRepository _employees;
 
-        public UpdateContractCommandHandler(IContractRepository contractRepository)
+        public UpdateContractCommandHandler(
+            IContractRepository contractRepository,
+            IEmployeeRepository employees)
         {
             _contractRepository = contractRepository;
+            _employees = employees;
         }
 
         public async Task<Result> Handle(UpdateContractCommand command, CancellationToken ct)
         {
+            if (await _employees.GetByIdAsync(command.EmployeeId, ct) is null)
+            {
+                return Result.Failure(
+                    ContractHistoryErrors.EmployeeNotFound(command.EmployeeId));
+            }
+
             var contract = await _contractRepository.GetByIdAsync(command.ContractId, ct);
             if (contract is null)
                 return Result.Failure(Error.NotFound);
+
+            var oldValue = ContractSnapshot.Serialize(contract);
 
             contract.UpdateDetails(
                 command.SupplierId,
@@ -75,7 +89,6 @@ namespace Application.Contracts.UpdateContract
                         line.PaymentFrequencyUnit
                     );
                     contract.AddLine(newContractLine);
-                    Console.WriteLine($"New line: {newContractLine.ContractLineId}");
                 }
 
             foreach (var line in linesToRemove)
@@ -83,6 +96,15 @@ namespace Application.Contracts.UpdateContract
                 contract.RemoveLine(line);
             }
 
+            var history = ContractHistory.Create(
+                contract.ContractId,
+                command.EmployeeId,
+                HistoryActionType.ContractUpdated,
+                "Contract updated",
+                oldValue,
+                ContractSnapshot.Serialize(contract));
+            contract.AddHistory(history);
+            await _contractRepository.AddHistoryAsync(history,ct);
 
             await _contractRepository.SaveChangesAsync(ct);
             return Result.Success();

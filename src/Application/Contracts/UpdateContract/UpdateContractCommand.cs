@@ -12,7 +12,8 @@ namespace Application.Contracts.UpdateContract
         DateOnly? ActionDate,
         int? NoticePeriodValue,
         NoticePeriodUnit? NoticePeriodUnit,
-        List<UpdateContractLineCommand> ContractLines
+        List<UpdateContractLineCommand> ContractLines,
+        Guid EmployeeId
     );
 
     public sealed record UpdateContractLineCommand(

@@ -11,7 +11,8 @@ public record CreateContractCommand(
     DateOnly? ActionDate,
     int? NoticePeriodValue,
     NoticePeriodUnit? NoticePeriodUnit,
-    IReadOnlyList<CreateContractLineInput> ContractLines
+    IReadOnlyList<CreateContractLineInput> ContractLines,
+    Guid EmployeeId
 );
 
 public record CreateContractLineInput(

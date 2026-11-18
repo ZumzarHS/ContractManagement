@@ -39,4 +39,10 @@ public sealed class ContractRepository : IContractRepository
         await _dbContext.SaveChangesAsync(ct);
     }
 
+    public async Task AddHistoryAsync(
+    ContractHistory history,
+    CancellationToken ct)
+    {
+        await _dbContext.ContractHistories.AddAsync(history, ct);
+    }
 }

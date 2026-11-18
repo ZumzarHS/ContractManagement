@@ -40,7 +40,10 @@ public class CreateContractTests : BaseIntegrationTest
         };
 
         DbContext.CatalogItems.Add(catalogItem);
-
+        await EnsureEmployeeExists(
+            Guid.Parse("11111111-1111-1111-1111-111111111111"),
+            "Anders Andersen",
+            "anders@example.com");
         await DbContext.SaveChangesAsync();
 
         // Arrange: 3. Opret command med de rigtige ID'er
@@ -68,7 +71,8 @@ public class CreateContractTests : BaseIntegrationTest
                     PaymentFrequencyInterval: 1,
                     PaymentFrequencyUnit: FrequencyUnit.Month
                 ) 
-            }
+            },
+            EmployeeId: Guid.Parse("11111111-1111-1111-1111-111111111111")
         );
 
         // Act: Send HTTP-request til API'en
@@ -106,5 +110,14 @@ public class CreateContractTests : BaseIntegrationTest
         // Assert 4: Kontrollér relationen til katalogvaren
         Assert.NotNull(contractLine.CatalogItem);
         Assert.Equal("Testprodukt", contractLine.CatalogItem.Name);
+
+        var history = await DbContext.ContractHistories
+            .AsNoTracking()
+            .SingleAsync(entry => entry.ContractId == contractId);
+
+        Assert.Equal(HistoryActionType.ContractCreated, history.ActionType);
+        Assert.Equal(Guid.Parse("11111111-1111-1111-1111-111111111111"), history.EmployeeId);
+        Assert.Null(history.OldValue);
+        Assert.Contains("Testkontrakt", history.NewValue);
     }
 }

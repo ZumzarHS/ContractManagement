@@ -1,4 +1,5 @@
 ﻿using ContractManagement.Infrastructure.Persistence;
+using ContractManagement.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -28,5 +29,21 @@ public abstract class BaseIntegrationTest : IClassFixture<IntegrationTestWebAppF
         _scope.Dispose();
         
         await _factory.ResetDatabaseAsync();
+    }
+
+    protected async Task EnsureEmployeeExists(Guid employeeId, string name, string email)
+    {
+        if (await DbContext.Employees.FindAsync(employeeId) is not null)
+        {
+            return;
+        }
+
+        DbContext.Employees.Add(new Employee
+        {
+            EmployeeId = employeeId,
+            Name = name,
+            Email = email
+        });
+        await DbContext.SaveChangesAsync();
     }
 }

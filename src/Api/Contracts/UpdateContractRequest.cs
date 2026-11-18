@@ -11,7 +11,8 @@ namespace Api.Contracts
     DateOnly? ActionDate,
     int? NoticePeriodValue,
     NoticePeriodUnit? NoticePeriodUnit,
-    List<UpdateContractLineRequest> ContractLines
+    List<UpdateContractLineRequest> ContractLines,
+    Guid EmployeeId
 );
     public sealed record UpdateContractLineRequest(
     Guid? ContractLineId,

@@ -43,6 +43,7 @@ export interface CreateContractRequest {
     noticePeriodValue: number | null;
     noticePeriodUnit: number | null;
     contractLines: CreateContractLineRequest[];
+    employeeId: string;
 }
 
 export interface CreateContractLineRequest {
@@ -69,6 +70,7 @@ export interface UpdateContractRequest {
     noticePeriodValue: number | null;
     noticePeriodUnit: number | null;
     contractLines: UpdateContractLineRequest[];
+    employeeId: string;
 }
 
 export interface UpdateContractLineRequest extends CreateContractLineRequest {

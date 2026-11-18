@@ -18,5 +18,12 @@ namespace ContractManagement.Infrastructure.Persistence.Repositories
                 AsNoTracking().
                 ToListAsync(ct);
         }
+
+        public async Task<Employee?> GetByIdAsync(Guid id, CancellationToken ct)
+        {
+            return await _dbContext.Employees
+                .AsNoTracking()
+                .FirstOrDefaultAsync(employee => employee.EmployeeId == id, ct);
+        }
     }
 }

@@ -39,6 +39,16 @@ public class UpdateContractTests : BaseIntegrationTest
 
         DbContext.Suppliers.Add(supplier);
         DbContext.CatalogItems.Add(catalogItem);
+        await EnsureEmployeeExists(
+            Guid.Parse("11111111-1111-1111-1111-111111111111"),
+            "Anders Andersen",
+            "anders@example.com");
+        await EnsureEmployeeExists(
+            Guid.Parse("22222222-2222-2222-2222-222222222222"),
+            "Bo Hansen",
+            "bo@example.com");
+        var employeeA = Guid.Parse("11111111-1111-1111-1111-111111111111");
+        var employeeB = Guid.Parse("22222222-2222-2222-2222-222222222222");
         await DbContext.SaveChangesAsync();
 
         // Arrange: Opret kontrakt via API med to kontraktlinjer
@@ -79,7 +89,8 @@ public class UpdateContractTests : BaseIntegrationTest
                     PaymentFrequencyInterval: 1,
                     PaymentFrequencyUnit: FrequencyUnit.Month
                 )
-            }
+            },
+            EmployeeId: employeeA
         );
 
         // Act: Send POST HTTP-request til API'en
@@ -111,6 +122,7 @@ public class UpdateContractTests : BaseIntegrationTest
             ActionDate: new DateOnly(2026, 12, 1),
             NoticePeriodValue: 4,
             NoticePeriodUnit: NoticePeriodUnit.Months,
+            EmployeeId: employeeB,
             ContractLines: new List<UpdateContractLineRequest>
             {
                 new(
@@ -151,7 +163,9 @@ public class UpdateContractTests : BaseIntegrationTest
         );
         var errorContent = await updateResponse.Content.ReadAsStringAsync();
 
-        Assert.Equal(HttpStatusCode.NoContent, updateResponse.StatusCode);
+        Assert.True(
+            updateResponse.StatusCode == HttpStatusCode.NoContent,
+            $"Expected NoContent but got {updateResponse.StatusCode}: {errorContent}");
         DbContext.ChangeTracker.Clear();
 
         var updatedContract = await DbContext.Contracts
@@ -191,5 +205,40 @@ public class UpdateContractTests : BaseIntegrationTest
             updatedContract.ContractLines,
             cl => cl.ContractLineId == lineToDelete.ContractLineId
         );
+
+        var history = await DbContext.ContractHistories
+            .AsNoTracking()
+            .Where(entry => entry.ContractId == contractId)
+            .OrderBy(entry => entry.Timestamp)
+            .ToListAsync();
+
+        Assert.Equal(2, history.Count);
+
+        var updateHistory = Assert.Single(
+        history,
+        entry => entry.ActionType == HistoryActionType.ContractUpdated);
+        Assert.Equal(HistoryActionType.ContractUpdated, updateHistory.ActionType);
+        Assert.Equal(employeeB, updateHistory.EmployeeId);
+        Assert.Contains("Testkontrakt", updateHistory.OldValue);
+        Assert.Contains("Opdateret testkontrakt", updateHistory.NewValue);
+
+        Assert.Contains("Model X", updateHistory.OldValue);
+        Assert.Contains("Model Y", updateHistory.OldValue);
+
+        Assert.Contains("Opdateret model", updateHistory.NewValue);
+        Assert.Contains("Ny model", updateHistory.NewValue);
+
+        Assert.DoesNotContain("Model Y", updateHistory.NewValue);
+
+        var createHistory = Assert.Single(
+            history, 
+            entry => entry.ActionType == HistoryActionType.ContractCreated);
+
+        Assert.Equal(
+            employeeA,
+            createHistory.EmployeeId);
+
+        Assert.Null(createHistory.OldValue);
+        Assert.NotNull(createHistory.NewValue);
     }
 }

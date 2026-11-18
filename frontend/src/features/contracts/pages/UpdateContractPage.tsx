@@ -22,10 +22,12 @@ import type {
     UpdateContractLineRequest,
     UpdateContractRequest,
 } from "../types";
+import { useEmployee } from "../../employees/hooks/useEmployee";
 
 function UpdateContractPage() {
     const { contractId } = useParams<{ contractId: string }>();
     const navigate = useNavigate();
+    const { selectedEmployee } = useEmployee();
     const [contract, setContract] = useState<ContractDto | null>(null);
     const [suppliers, setSuppliers] = useState<SupplierDto[]>([]);
     const [catalogItems, setCatalogItems] = useState<CatalogItemDto[]>([]);
@@ -138,12 +140,18 @@ function UpdateContractPage() {
             return;
         }
 
+        if (!selectedEmployee) {
+            setError("Select an active employee before updating the contract.");
+            return;
+        }
+
         setError(null);
         setIsSubmitting(true);
 
         try {
             await updateContractById(contractId, {
                 ...formData,
+                employeeId: selectedEmployee.employeeId,
                 title: formData.title.trim(),
                 description: formData.description?.trim() || null,
                 contractLines: formData.contractLines.map((line) => ({
@@ -346,6 +354,7 @@ function toUpdateRequest(contract: ContractDto): UpdateContractRequest {
         actionDate: contract.actionDate,
         noticePeriodValue: contract.noticePeriodValue,
         noticePeriodUnit: contract.noticePeriodUnit,
+        employeeId: "",
         contractLines: contract.contractLines.map((line) => ({
             contractLineId: line.contractLineId,
             catalogItemId: line.catalogItemId,

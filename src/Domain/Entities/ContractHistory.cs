@@ -14,5 +14,34 @@ namespace ContractManagement.Domain.Entities
         public Guid EmployeeId { get; private set; }
         public Contract Contract { get; private set; } = null!;
         public Employee Employee { get; private set; } = null!;
+
+        private ContractHistory() { }
+
+        public static ContractHistory Create(
+            Guid contractId,
+            Guid employeeId,
+            HistoryActionType actionType,
+            string description,
+            string? oldValue,
+            string? newValue)
+        {
+            if (contractId == Guid.Empty)
+                throw new ArgumentException("ContractId is required.", nameof(contractId));
+
+            if (employeeId == Guid.Empty)
+                throw new ArgumentException("EmployeeId is required.", nameof(employeeId));
+
+            return new ContractHistory
+            {
+                ContractHistoryId = Guid.NewGuid(),
+                Timestamp = DateTime.UtcNow,
+                ActionType = actionType,
+                Description = description,
+                OldValue = oldValue,
+                NewValue = newValue,
+                ContractId = contractId,
+                EmployeeId = employeeId
+            };
+        }
     }
 }
