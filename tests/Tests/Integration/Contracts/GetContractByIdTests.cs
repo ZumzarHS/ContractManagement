@@ -66,6 +66,8 @@ namespace Tests.Integration.Contracts
             Assert.NotEqual(Guid.Empty, contractId);
             Assert.Equal(contractId, contract.ContractId);
             Assert.Equal("Test contract", contract.Title);
+            Assert.Equal("Anders Andersen", contract.LastHandledBy);
+            Assert.NotNull(contract.LastHandledAt);
         }
         [Fact]
         public async Task GetContractById_ShouldReturnNotFound_WhenContractDoesNotExist()

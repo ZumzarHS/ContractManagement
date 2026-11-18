@@ -25,6 +25,10 @@ public class GetContractByIdQueryHandler
                 ContractErrors.NotFound(query.ContractId));
         }
 
+        var latestHistory = contract.History
+            .OrderByDescending(h => h.Timestamp)
+            .FirstOrDefault();
+
         var response = new ContractResponse(
             contract.ContractId,
             contract.Title,
@@ -52,7 +56,9 @@ public class GetContractByIdQueryHandler
                 cl.DeliveryFrequencyUnit,
                 cl.PaymentFrequencyInterval,
                 cl.PaymentFrequencyUnit
-            )).ToList()
+            )).ToList(),
+            latestHistory?.Employee.Name,
+            latestHistory?.Timestamp
         );
 
         return Result<ContractResponse>.Success(response);

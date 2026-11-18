@@ -15,6 +15,8 @@ export interface ContractListDto {
 
 export interface ContractDto extends ContractListDto {
     contractLines: ContractLineDto[];
+    lastHandledBy: string | null;
+    lastHandledAt: string | null;
 }
 
 export interface ContractLineDto {

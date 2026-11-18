@@ -22,8 +22,9 @@ public sealed class ContractRepository : IContractRepository
         CancellationToken ct = default)
     {
         return await _dbContext.Contracts
-           .Include(c=>c.ContractLines).ThenInclude(cl => cl.CatalogItem)
-           .Include(c=> c.Supplier)
+           .Include(c => c.ContractLines).ThenInclude(cl => cl.CatalogItem)
+           .Include(c => c.Supplier)
+           .Include(c => c.History).ThenInclude(h => h.Employee)
            .FirstOrDefaultAsync(c => c.ContractId == id, ct);
     }
 

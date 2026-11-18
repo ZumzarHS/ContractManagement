@@ -13,7 +13,8 @@ import {
     Typography,
 } from "@mui/material";
 import { getContractById } from "../api/contractsApi";
-import type { ContractDto, ContractLineDto } from "../types";
+import ContractLinesTable from "../components/ContractLinesTable";
+import type { ContractDto } from "../types";
 import { formatNoticePeriod, getContractStatusLabel, getActionStatusLabel } from "../contractStatus";
 
 function ContractDetailsPage() {
@@ -79,6 +80,22 @@ function ContractDetailsPage() {
                 </Button>
             </Stack>
 
+            <Stack direction="row" spacing={1} sx={{ mb: 3, alignItems: "center", color: "text.secondary" }}>
+                <Typography variant="caption">
+                    Last activity by:
+                </Typography>
+
+                <Typography variant="caption" sx={{ color: "text.primary", fontWeight: 600 }}>
+                    {contract.lastHandledBy ?? "Unknown"}
+                </Typography>
+
+                <Typography variant="caption">
+                    {`at ${contract.lastHandledAt
+                        ? new Date(contract.lastHandledAt).toLocaleString("da-DK")
+                        : "Unknown date"}`}
+                </Typography>
+            </Stack>
+
             <Paper sx={{ p: 3 }}>
                 <Stack spacing={2}>
                     <Detail label="Contract ID" value={contract.contractId} />
@@ -125,79 +142,6 @@ function Detail({ label, value }: { label: string; value?: string | null }) {
     );
 }
 
-function ContractLinesTable({ contractLines }: { contractLines: ContractLineDto[] }) {
-    if (contractLines.length === 0) {
-        return (
-            <Typography color="text.secondary">
-                This contract has no contract lines.
-            </Typography>
-        );
-    }
 
-    return (
-        <TableContainer component={Paper}>
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Catalog item</TableCell>
-                        <TableCell>Producer</TableCell>
-                        <TableCell>Model</TableCell>
-                        <TableCell>Description</TableCell>
-                        <TableCell>Price</TableCell>
-                        <TableCell>Quantity</TableCell>
-                        <TableCell>Initial amount</TableCell>
-                        <TableCell>Delivery frequency</TableCell>
-                        <TableCell>Payment frequency</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {contractLines.map((line) => (
-                        <TableRow key={line.contractLineId} hover>
-                            <TableCell>{line.catalogItemName}</TableCell>
-                            <TableCell>{line.producer ?? "—"}</TableCell>
-                            <TableCell>{line.model ?? "—"}</TableCell>
-                            <TableCell>{line.description ?? "—"}</TableCell>
-                            <TableCell>{formatAmount(line.price)}</TableCell>
-                            <TableCell>{line.quantity ?? "—"}</TableCell>
-                            <TableCell>
-                                {line.initialAmount === null
-                                    ? "—"
-                                    : formatAmount(line.initialAmount)}
-                            </TableCell>
-                            <TableCell>
-                                {formatFrequency(
-                                    line.deliveryFrequencyInterval,
-                                    line.deliveryFrequencyUnit,
-                                )}
-                            </TableCell>
-                            <TableCell>
-                                {formatFrequency(
-                                    line.paymentFrequencyInterval,
-                                    line.paymentFrequencyUnit,
-                                )}
-                            </TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
-    );
-}
-
-function formatAmount(amount: number): string {
-    return new Intl.NumberFormat("da-DK", {
-        style: "currency",
-        currency: "DKK",
-    }).format(amount);
-}
-
-function formatFrequency(interval: number | null, unit: number | null): string {
-    if (interval === null || unit === null) {
-        return "—";
-    }
-
-    const units = ["day(s)", "week(s)", "month(s)", "year(s)"];
-    return `${interval} ${units[unit] ?? "period(s)"}`;
-}
 
 export default ContractDetailsPage;

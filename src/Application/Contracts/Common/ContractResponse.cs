@@ -15,5 +15,7 @@ public sealed record ContractResponse(
     ActionStatus ActionStatus,
     Guid SupplierId,
     string SupplierName,
-    IReadOnlyList<ContractLineResponse> ContractLines
+    IReadOnlyList<ContractLineResponse> ContractLines,
+    string? LastHandledBy,
+    DateTime? LastHandledAt
 );
